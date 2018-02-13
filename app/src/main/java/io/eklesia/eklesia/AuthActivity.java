@@ -18,31 +18,31 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
 
         SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        if(/*sp !=null*/true){
-            String a_token, r_token;
-            a_token=sp.getString("a_token",null);
-            r_token=sp.getString("r_token",null);
-            if(/*a_token!=null&&r_token!=null*/ true)
-            {
-                CallbackFunction cbf = new CallbackFunction() {
-                    @Override
-                    public void onResponse() {
-                        Toast.makeText(AuthActivity.this, "OK", Toast.LENGTH_LONG).show();
-                    }
 
-                    @Override
-                    public void onError(String risposta) {
-                        Toast.makeText(AuthActivity.this, risposta, Toast.LENGTH_LONG).show();
-                    }
-                };
+        String a_token, r_token;
+        a_token=sp.getString("a_token",null);
+        r_token=sp.getString("r_token",null);
+        if(a_token!=null&&r_token!=null)
+        {
+            CallbackFunction cbf = new CallbackFunction() {
+                @Override
+                public void onResponse() {
+                    Toast.makeText(AuthActivity.this, "OK", Toast.LENGTH_LONG).show();
+                }
 
-                RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                requestQueue.add(Connessione.sendGet("api/utente", cbf));
-            }
+                @Override
+                public void onError(String risposta) {
+                    Toast.makeText(AuthActivity.this, risposta, Toast.LENGTH_LONG).show();
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
+            requestQueue.add(Connessione.sendGet("api/utente", cbf));
         }
         else{
-
+            Toast.makeText(AuthActivity.this, "Non ci sono preferences", Toast.LENGTH_LONG).show();
         }
+
 
 
     }

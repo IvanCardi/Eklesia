@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Eklesia.iml" filepath="$PROJECT_DIR$/Eklesia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Eklesia.iml" filepath="$PROJECT_DIR$/.idea/Eklesia.iml" />
+      <module fileurl="file://C:\Users\Santa Caterina\Desktop\mihael\progetti\Eklesia\Eklesia.iml" filepath="C:\Users\Santa Caterina\Desktop\mihael\progetti\Eklesia\Eklesia.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Santa Caterina\Desktop\mihael\progetti\Eklesia\app\app.iml" filepath="C:\Users\Santa Caterina\Desktop\mihael\progetti\Eklesia\app\app.iml" />
     </modules>
   </component>
 </project>

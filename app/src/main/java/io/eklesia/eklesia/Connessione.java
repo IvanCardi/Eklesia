@@ -17,7 +17,7 @@ import java.util.Map;
  */
 
 public class Connessione {
-    static String pref = "http://192.168.1.75/";
+    static String pref = "http://192.168.1.5/portale/public/";
     boolean risposta;
 
     public Connessione(){
@@ -40,7 +40,7 @@ public class Connessione {
                 HashMap<String, String> headers = new HashMap<>();
                 //headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("Accept", "application/json");
-                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc0MDFlNDFlNWQ5MzI3NGQ1NDJmMTJlOTkzZTBhZGYxMDdhZDZmMmEwZjE4YjNhMjI2NzEzOTg0ZTA4MzdiMDZjNWRkOTJkOWM0NjExNTVkIn0.eyJhdWQiOiIzIiwianRpIjoiNzQwMWU0MWU1ZDkzMjc0ZDU0MmYxMmU5OTNlMGFkZjEwN2FkNmYyYTBmMThiM2EyMjY3MTM5ODRlMDgzN2IwNmM1ZGQ5MmQ5YzQ2MTE1NWQiLCJpYXQiOjE1MTg1Mjk0NjEsIm5iZiI6MTUxODUyOTQ2MSwiZXhwIjoxNTE4NTMwMDYwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.mhAASf8n-Ne23XtxMcO9A4WihwQGnyf-CiaU7E24NQgR49evSiv54TbG0ZgdpqgJbeB_zd58r2LKR33NipfWhVxeT3Cx1E6SaFj4bEkJdYXSk_YjY771PpTJp7P9nPambjKiSMS_DG5izYdIVa9tio4elj9v9rHAZk-6Kq8razVXzQpvMvR2b6khKDv2W1CGSTa9Vi7iCQdBu1dE4MPdajDrmBHSCwDipJgSkIPW79mQo0yFjRUJQ6j7jOHGFqvAGvgs4k1-Bt09S24fLNSdwsXbMA1jPtXnp6SX2ZA6opON1q6vxdow2G9NKGN5B33usgpErZ8PJolJCQ0q11tRyCAEES3D1bd3NQNJBZ7fkWRa628Icf5-9z6NUquL6LcnwmYFNfJBSc7G29kgpbWD2twC1IqFghsIb95lwQWep7Q3YPuAx8g_BjLUD_KvVlqkkKu_AC12LnBcUcJfKvEvSqJmm_l6LggaKOXxbENh-msQSPW9pzqbJrBLjz2xuGQa7zVMIuzEs39nPwSFBte1r53W_-4PYIDmrmbMgRbKWQO4nJ-O4S8g-oBB7-8YZ_5CMDKxR4HrsVpBkY4E1UENkI7zfrb_pml7WGrIHN9dKMZJIaPQaMJqrbOzZZ1OJH1DBYkRZ1WCjmn-RD6BFnxwLRGK5fDSv5xGIZoNmPxMCAA");
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjE3MzI5MGNiNDljZGM0OWJjM2ExZTcxODEyNTkxNmVmMGJlMzU0MGY1YmUxNTQwNmEyYWRhZjMwOWM3NmNlMjJkZmI2YWU2NDVmZjA5YzdiIn0.eyJhdWQiOiIxIiwianRpIjoiMTczMjkwY2I0OWNkYzQ5YmMzYTFlNzE4MTI1OTE2ZWYwYmUzNTQwZjViZTE1NDA2YTJhZGFmMzA5Yzc2Y2UyMmRmYjZhZTY0NWZmMDljN2IiLCJpYXQiOjE1MTg1NDg0ODQsIm5iZiI6MTUxODU0ODQ4NCwiZXhwIjoxNTE4NjM0ODgzLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.oLgk8EqThroE1O4kQoEwVmPCFQOr6NVe6AtaoS8d6LXL8p1ghBUwdJALkx-Zf1ZgJ-NwcWdao0PXckT7DOVB_WGjy7xTnsgeO0bzLD9r5KIDMFeXa0wir4aPN_DdNq6dZ6zDo4HLJfM2hJX1n8ercOLMfANdyhSnXvFsye0SYh9cRWrVg7OqcWbTkdqbL6_7zuldwXxpp5aSoF3dQScnbPi0Ju1tReMa8Dp-dedykAzrYl3S2Phcxxrxj9IPmoHRQ8HtrJypYmGlN6OCqQfZvWxBUeG6TuAMrcjooA18m6DrG424vYtlBct8zMBVFy4Q9f6XZlw-q6H5HtVl5lAoq-4-Mk4EY0YG10ZF6YLfj6LhvhYvtO-JKr6A_90z3bG4sOlrPsjPvR9zE4df9dy7oz56fJ3qkpcaNtLYNbQeC1qeLt5pGjuymUnmSkKyjAsqjeb8fy67C9L0nyhWaI7bqFxneq64I6WOiCqgT7_xyZDxVU30EMH542efETETwMDjvAMDCZq3xxPWerymqzsjn6_YJePHdwFoUgU78ruh3cjHWYqK3hMO__wu91Q2AkumEAdzhIciCd8yXvPQpePi4CN7CK3PUqLMJvlN4a-gV0KICGuHoopMfjM1no0CTDvhkvPh0x610NAJwVueJb3hme0t49GT1ZKxceLUqcU0tew");
                 return headers;
             }
         };
