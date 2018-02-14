@@ -36,7 +36,6 @@ public class DashboardActivity extends AppCompatActivity {
                 editor.clear();
                 editor.commit();
                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
-                Snackbar.make(findViewById(R.id.dashboard_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
                 startActivity(i);
             }
 

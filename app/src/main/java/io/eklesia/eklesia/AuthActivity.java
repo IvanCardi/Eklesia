@@ -30,7 +30,7 @@ public class AuthActivity extends AppCompatActivity {
         //final String client_id = "1";
         //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
         final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19";
+        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
 
         final String a_token, r_token;
         a_token=sp.getString("a_token",null);

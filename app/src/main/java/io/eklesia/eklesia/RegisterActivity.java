@@ -1,6 +1,7 @@
 package io.eklesia.eklesia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -52,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
                 Snackbar.make((LinearLayout) findViewById(R.id.layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(RegisterActivity.this, DashboardActivity.class);
+                startActivity(i);
             }
 
             @Override
