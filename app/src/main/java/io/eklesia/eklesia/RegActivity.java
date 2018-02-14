@@ -80,7 +80,7 @@ public class RegActivity extends AppCompatActivity {
                     jsonObject.put("email", email.getText());
                     jsonObject.put("password", pwd.getText());
                     jsonObject.put("password_confirmation", pwd.getText());
-                    jsonObject.put("data_nscita", data_nascita.getText());
+                    jsonObject.put("data_nascita", data_nascita.getText());
                     jsonObject.put("sesso", sesso.getText());
                     //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 

@@ -28,7 +28,7 @@ public class Connessione {
         super();
     }
 
-    public static JsonObjectRequest sendGet (final SharedPreferences sp, String uri, final CallbackFunction cbf){
+    public static JsonObjectRequest sendGet(final SharedPreferences sp, String uri, final CallbackFunction cbf){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, pref + uri, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -60,7 +60,7 @@ public class Connessione {
         return jsonObjectRequest;
     }
 
-    public static JsonObjectRequest sendPost (SharedPreferences sp, String uri, JSONObject jsonObject, final CallbackFunction cbf){
+    public static JsonObjectRequest sendPost(SharedPreferences sp, String uri, JSONObject jsonObject, final CallbackFunction cbf){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, pref + uri, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -82,6 +82,12 @@ public class Connessione {
         });
 
         return jsonObjectRequest;
+    }
+
+    public Map<String,String> getHeaders() throws AuthFailureError {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        return headers;
     }
 
 }
