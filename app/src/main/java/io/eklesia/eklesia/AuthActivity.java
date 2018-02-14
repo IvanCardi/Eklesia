@@ -27,8 +27,10 @@ public class AuthActivity extends AppCompatActivity {
         //editor.putString("r_token", "def5020059b81bdf5e00957a3502a84e97225910f4f2e348b5d00def8bb8cb3c00553e8204f871a6e902a4dec787d24acf55d55ee93fba95fe15c701fb3978ffcab50b2b8b04aa8d18518436395d9b4b6c59bea5db1af6942a2b1467ff4d1d13acbb20b7d2406aae72ada2ef347e1a4e65d0698a7db8fcf62066a0b9cde1b70034334f498114a0227e0b56719d4a55a761dd8af8a3d0504c4f99936f59cdb02a68d875a85513c1cea8e186c700b6a83dc8cd236ea518935e8e1eca8a4e33ffc4f1215f51152bb4c99b7ef9fe5d6d29a056996cac194ef3497a6be7983588852fbbea98377114ea7d3a1d33109730a92df6c5c89d7355145b349b25e81c0bf982045156991d5abec1367248f83a64467ce5b222da76c8049b96aa8cc93b8bbf4279894c4e8a5e6c5d8ca8a723f95446fe9c9027f8b6490d6ab081e85b2b5babcd511df7303d87b33a6b8410f4deb194dabb2311c0ccac8533ac99dc8e080d9f8e8f");
         //editor.commit();
 
-        final String client_id = "1";
-        final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
+        //final String client_id = "1";
+        //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
+        final String client_id = "3";
+        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19";
 
         final String a_token, r_token;
         a_token=sp.getString("a_token",null);

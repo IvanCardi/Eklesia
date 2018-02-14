@@ -22,7 +22,8 @@ import java.util.Map;
  */
 
 public class Connessione {
-    static String pref = "http://192.168.1.5/portale/public/";
+    //static String pref = "http://192.168.1.5/portale/public/";
+    static String pref = "http://192.168.1.4/";
     boolean risposta;
 
     public Connessione(){
