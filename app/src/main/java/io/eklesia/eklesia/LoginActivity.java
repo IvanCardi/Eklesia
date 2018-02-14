@@ -33,10 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sp.edit();
 
         final JSONObject jsonObject = new JSONObject();
-        //final String client_id = "1";
-        //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
-        final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19";
+        final String client_id = "1";
+        final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
+//        final String client_id = "3";
+//        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19";
 
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                requestQueue.add(Connessione.sendPost(sp, "oauth/token", jsonObject, cbf));
+                requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, cbf));
             }
         });
 

@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                     //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 
                     RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
-                    requestQueue.add(Connessione.sendPost(sp, "api/utente", jsonObject, cbf));
+                    requestQueue.add(Connessione.sendPost(null, "api/utente", jsonObject, cbf));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
