@@ -9,5 +9,5 @@ import org.json.JSONObject;
 
 public interface CallbackFunction {
     public void onResponse(JSONObject risposta) throws JSONException;
-    public void onError(String risposta) throws JSONException;
+    public void onError(JSONObject risposta) throws JSONException;
 }

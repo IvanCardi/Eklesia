@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sp.edit();
 
         final JSONObject jsonObject = new JSONObject();
-        final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
+        final String client_id = "1";
+        final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
 
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(String risposta) throws JSONException {
-                Toast.makeText(LoginActivity.this, risposta, Toast.LENGTH_LONG).show();
+            public void onError(JSONObject risposta) throws JSONException {
+                Toast.makeText(LoginActivity.this, risposta.getString("message"), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegActivity.class);
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
             }
         });

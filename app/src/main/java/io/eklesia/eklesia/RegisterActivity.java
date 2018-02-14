@@ -3,7 +3,6 @@ package io.eklesia.eklesia;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -27,12 +25,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class RegActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reg);
+        setContentView(R.layout.activity_register);
 
         final EditText nome = (EditText) findViewById(R.id.nome);
         final EditText cognome = (EditText) findViewById(R.id.cognome);
@@ -49,18 +47,16 @@ public class RegActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sp.edit();
 
         final JSONObject jsonObject = new JSONObject();
-        final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
 
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                Snackbar.make((LinearLayout) findViewById(R.id.layout), "OK", Snackbar.LENGTH_LONG).show();
+                Snackbar.make((LinearLayout) findViewById(R.id.layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
-            public void onError(String risposta) throws JSONException {
-                Toast.makeText(RegActivity.this, risposta, Toast.LENGTH_LONG).show();
+            public void onError(JSONObject risposta) throws JSONException {
+                Toast.makeText(RegisterActivity.this, risposta.getString("message"), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -84,7 +80,7 @@ public class RegActivity extends AppCompatActivity {
                     jsonObject.put("sesso", sesso.getText());
                     //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(RegActivity.this);
+                    RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
                     requestQueue.add(Connessione.sendPost(sp, "api/utente", jsonObject, cbf));
                 } catch (JSONException e) {
                     e.printStackTrace();
