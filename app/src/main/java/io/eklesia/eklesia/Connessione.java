@@ -104,8 +104,6 @@ public class Connessione {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }){
             public Map<String,String> getHeaders() throws AuthFailureError {
