@@ -22,15 +22,15 @@ import java.util.Map;
  */
 
 public class Connessione {
-    //static String pref = "http://192.168.1.5/portale/public/";
-    static String pref = "http://192.168.1.4/";
+    static String pref = "http://192.168.1.5/portale/public/";
+//    static String pref = "http://192.168.1.4/";
     boolean risposta;
 
     public Connessione(){
         super();
     }
 
-    public static JsonObjectRequest sendGet(final SharedPreferences sp, String uri, final CallbackFunction cbf){
+    public static JsonObjectRequest sendGet(final Map<?,?> parametri, String uri, final CallbackFunction cbf){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, pref + uri, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -66,7 +66,7 @@ public class Connessione {
                 HashMap<String, String> headers = new HashMap<>();
                 //headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("Accept", "application/json");
-                headers.put("Authorization", "Bearer " + sp.getString("a_token", ""));
+                headers.put("Authorization", "Bearer " + parametri.get("a_token"));
                 return headers;
             }
         };
@@ -74,7 +74,7 @@ public class Connessione {
         return jsonObjectRequest;
     }
 
-    public static JsonObjectRequest sendPost(SharedPreferences sp, String uri, final JSONObject jsonObject, final CallbackFunction cbf){
+    public static JsonObjectRequest sendPost(final Map<?,?> parametri, String uri, final JSONObject jsonObject, final CallbackFunction cbf){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, pref + uri, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -111,6 +111,7 @@ public class Connessione {
             public Map<String,String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Accept", "application/json");
+                headers.put("Authorization", "Bearer " + (parametri!=null?(String)parametri.get("a_token"):""));
                 return headers;
             }
         };
