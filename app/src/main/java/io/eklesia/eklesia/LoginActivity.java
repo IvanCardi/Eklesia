@@ -24,10 +24,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText email = findViewById(R.id.email);
-        final EditText pwd = findViewById(R.id.password);
-        final TextView reg = findViewById(R.id.registrati);
-        Button accedi = findViewById(R.id.accedi);
+        final EditText email = (EditText) findViewById(R.id.email);
+        final EditText pwd = (EditText) findViewById(R.id.password);
+        final TextView reg = (TextView) findViewById(R.id.registrati);
+        Button accedi = (Button) findViewById(R.id.accedi);
 
         final SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
