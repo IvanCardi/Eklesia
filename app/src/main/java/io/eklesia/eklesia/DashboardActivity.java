@@ -33,7 +33,8 @@ public class DashboardActivity extends AppCompatActivity {
         final CallbackFunction cbf_logout = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                editor.clear();
+                editor.putString("a_token", null);
+                editor.putString("r_token", null);
                 editor.commit();
                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(i);

@@ -46,9 +46,10 @@
         android:id="@+id/data_nascita_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="date"
         android:hint="Data di nascita"
-        android:inputType="date" />
-<!---
+         />
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,13 +68,10 @@
             android:id="@+id/f_register" />
     </RadioGroup>
 
-    -->
-
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sesso_register"
-        android:hint="Sesso"/>
+        android:id="@+id/sesso_message_register" />
 
     <ImageButton
         android:layout_width="wrap_content"

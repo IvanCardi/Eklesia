@@ -1,5 +1,6 @@
 package io.eklesia.eklesia;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,15 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +31,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -41,11 +50,12 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText email = (EditText) findViewById(R.id.email_register);
         final EditText pwd = (EditText) findViewById(R.id.pwd_register);
         final EditText data_nascita = (EditText) findViewById(R.id.data_nascita_register);
-        final EditText sesso = (EditText) findViewById(R.id.sesso_register);
-        //final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
+        final TextView sesso_message_register = (TextView) findViewById(R.id.sesso_message_register);
+        final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
         ImageButton add_photo = (ImageButton) findViewById(R.id.add_photo_register);
         final ImageView pic = (ImageView) findViewById(R.id.pic_register);
         Button conferma = (Button) findViewById(R.id.conferma_register);
+
 
         final SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
@@ -58,13 +68,41 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
                 Snackbar.make((LinearLayout) findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
-                Intent i = new Intent(RegisterActivity.this, DashboardActivity.class);
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(i);
             }
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Toast.makeText(RegisterActivity.this, risposta.getString("message"), Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.register_layout), risposta.getString("message"), Toast.LENGTH_LONG).show();
+               /* JSONObject jObj= risposta.getJSONObject("errors");
+                  for(int i = 0; i< jsonArray.length(); i++){
+                    JSONObject jsObj = jsonArray.getJSONObject(i);
+                    switch (jsObj.keys().next()){
+                        case "nome":
+                            nome.setText("");
+                            nome.setHint(jsObj.getString("nome"));
+                            break;
+                        case "cognome":
+                            nome.setText("");
+                            nome.setHint(jsObj.getString("cognome"));
+                            break;
+                        case "data_nascita":
+                            nome.setText("");
+                            nome.setHint(jsObj.getString("data_nascita"));
+                            break;
+                        case "email":
+                            nome.setText("");
+                            nome.setHint(jsObj.getString("email"));
+                            break;
+                        case "password":
+                            nome.setText("");
+                            nome.setHint(jsObj.getString("password"));
+                            break;
+                        default:
+                            break;
+                    }
+                }*/
             }
         };
 
@@ -78,8 +116,11 @@ public class RegisterActivity extends AppCompatActivity {
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                errori.clear();
+                int scelta = sesso.getCheckedRadioButtonId();
+                RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
-                if (validator(errori, nome, cognome, email, pwd)) {
+                if (validator(errori, nome, cognome, email, pwd, sesso)) {
 
                     try {
                         jsonObject.put("nome", nome.getText());
@@ -88,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                         jsonObject.put("password", pwd.getText());
                         jsonObject.put("password_confirmation", pwd.getText());
                         jsonObject.put("data_nascita", data_nascita.getText());
-                        jsonObject.put("sesso", sesso.getText());
+                        jsonObject.put("sesso", sesso_scelto.getText().equals("Maschio")?"1":"0");
                         //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 
                         RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
@@ -104,6 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String c = errori.get(R.id.cognome_register) != null?errori.get(R.id.cognome_register):"";
                     String e = errori.get(R.id.email_register)!= null? errori.get(R.id.email_register):"";
                     String p = errori.get(R.id.pwd_register) != null?errori.get(R.id.pwd_register):"";
+                    String s = errori.get(R.id.sesso_register) != null?errori.get(R.id.sesso_register):"";
 
                     if (n.length()> 0){
                         nome.setText("");
@@ -123,6 +165,10 @@ public class RegisterActivity extends AppCompatActivity {
                     if (p.length()> 0){
                         pwd.setText("");
                         pwd.setHint(p);
+                    }
+
+                    if (s.length() >0){
+                        sesso_message_register.setText(s);
                     }
 
                     Snackbar.make(findViewById(R.id.register_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
@@ -147,8 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
         return encodedfile;
     }
 
-    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd) {
-        map.clear();
+    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, RadioGroup sesso) {
         boolean risposta = true;
 
         String name_regex = "^[\\p{L}\\s.'\\-,]+$";
@@ -192,6 +237,11 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put(pwd.getId(), "La password deve avere almeno sei caratteri");
                 risposta = false;
             }
+        }
+
+        if(sesso.getCheckedRadioButtonId() == -1){
+            map.put(sesso.getId(), "Seleziona il sesso");
+            risposta = false;
         }
 
         return risposta;

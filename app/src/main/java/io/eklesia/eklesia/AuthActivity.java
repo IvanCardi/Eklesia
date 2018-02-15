@@ -32,17 +32,24 @@ public class AuthActivity extends AppCompatActivity {
         final String client_id = "3";
         final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
 
-        final String a_token, r_token;
-        a_token=sp.getString("a_token",null);
-        r_token=sp.getString("r_token",null);
+        final String a_token =sp.getString("a_token",null);
+        final String r_token=sp.getString("r_token",null);
+        final String primo_accesso = sp.getString("primo_accesso", null);
 
         if(a_token!=null&&r_token!=null)
         {
             CallbackFunction cbf = new CallbackFunction() {
                 @Override
                 public void onResponse(JSONObject risposta) {
-                    Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
-                    startActivity(i);
+
+                    if (primo_accesso!= null) {
+                        Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
+                        startActivity(i);
+                    }
+                    else {
+                        Intent i = new Intent(AuthActivity.this, ScegliChiesaPrimoAccessoActivity.class);
+                        startActivity(i);
+                    }
                 }
 
                 @Override
@@ -61,8 +68,13 @@ public class AuthActivity extends AppCompatActivity {
                             editor.putString("r_token",risposta.getString("refresh_token"));
                             editor.commit();
 
-                            Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
-                            startActivity(i);
+                            if (primo_accesso!= null) {
+                                Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
+                                startActivity(i);
+                            } else {
+                                Intent i = new Intent(AuthActivity.this, ScegliChiesaPrimoAccessoActivity.class);
+                                startActivity(i);
+                            }
                         }
 
                         @Override

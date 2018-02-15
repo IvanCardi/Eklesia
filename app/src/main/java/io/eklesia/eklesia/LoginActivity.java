@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
 
+        final String primo_accesso = sp.getString("primo_accesso", null);
+
         final JSONObject jsonObject = new JSONObject();
         //final String client_id = "1";
         //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
@@ -51,13 +53,18 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("r_token", risposta.getString("refresh_token"));
                 editor.commit();
 
-                Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
-                startActivity(i);
+                if (primo_accesso!= null) {
+                    Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(LoginActivity.this, ScegliChiesaPrimoAccessoActivity.class);
+                    startActivity(i);
+                }
             }
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Toast.makeText(LoginActivity.this, risposta.getString("message"), Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -92,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                         pwd.setText("");
                         pwd.setHint(p);
                     }
-
 
                     Snackbar.make(findViewById(R.id.login_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
                 }
