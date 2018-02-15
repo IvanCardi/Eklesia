@@ -117,7 +117,6 @@ public class RegisterActivity extends AppCompatActivity {
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                errori.clear();
                 int scelta = sesso.getCheckedRadioButtonId();
                 RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
@@ -200,7 +199,8 @@ public class RegisterActivity extends AppCompatActivity {
         return encodedfile;
     }
 
-    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd,EditText conferma_pwd, RadioGroup sesso) {
+    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, EditText conferma_pwd, RadioGroup sesso) {
+        map.clear();
         boolean risposta = true;
 
         String name_regex = "^[\\p{L}\\s.'\\-,]+$";
@@ -253,13 +253,15 @@ public class RegisterActivity extends AppCompatActivity {
             if (conferma_pwd.length() < 6) {
                 map.put(conferma_pwd.getId(), "La password deve avere almeno sei caratteri");
                 risposta = false;
-            } else {
-                if (pwd.equals(conferma_pwd)){
+            } else  {
+                if (!pwd.getText().toString().equals(conferma_pwd.getText().toString())){
                     map.put(conferma_pwd.getId(), "Le due password non coincidono");
                     risposta = false;
                 }
             }
         }
+
+
 
         if(sesso.getCheckedRadioButtonId() == -1){
             map.put(sesso.getId(), "Seleziona il sesso");
