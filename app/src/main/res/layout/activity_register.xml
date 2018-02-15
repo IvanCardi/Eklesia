@@ -43,6 +43,13 @@
         android:inputType="textPassword" />
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Conferma Password"
+        android:id="@+id/conferma_pwd_register"
+        android:inputType="textPassword"/>
+
+    <EditText
         android:id="@+id/data_nascita_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,9 +87,9 @@
         android:id="@+id/add_photo_register"/>
 
     <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/pic_register"/>
+        android:id="@+id/pic_register"
+        android:layout_width="53dp"
+        android:layout_height="46dp" />
 
     <Button
         android:layout_width="wrap_content"

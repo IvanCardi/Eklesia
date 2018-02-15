@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText cognome = (EditText) findViewById(R.id.cognome_register);
         final EditText email = (EditText) findViewById(R.id.email_register);
         final EditText pwd = (EditText) findViewById(R.id.pwd_register);
+        final EditText conferma_pwd = (EditText) findViewById(R.id.conferma_pwd_register);
         final EditText data_nascita = (EditText) findViewById(R.id.data_nascita_register);
         final TextView sesso_message_register = (TextView) findViewById(R.id.sesso_message_register);
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
@@ -120,14 +121,14 @@ public class RegisterActivity extends AppCompatActivity {
                 int scelta = sesso.getCheckedRadioButtonId();
                 RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
-                if (validator(errori, nome, cognome, email, pwd, sesso)) {
+                if (validator(errori, nome, cognome, email, pwd, conferma_pwd, sesso)) {
 
                     try {
                         jsonObject.put("nome", nome.getText());
                         jsonObject.put("cognome", cognome.getText());
                         jsonObject.put("email", email.getText());
                         jsonObject.put("password", pwd.getText());
-                        jsonObject.put("password_confirmation", pwd.getText());
+                        jsonObject.put("password_confirmation", conferma_pwd.getText());
                         jsonObject.put("data_nascita", data_nascita.getText());
                         jsonObject.put("sesso", sesso_scelto.getText().equals("Maschio")?"1":"0");
                         //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
@@ -142,10 +143,11 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
 
                     String n = errori.get(R.id.nome_register)!= null? errori.get(R.id.nome_register):"";
-                    String c = errori.get(R.id.cognome_register) != null?errori.get(R.id.cognome_register):"";
+                    String c = errori.get(R.id.cognome_register) != null? errori.get(R.id.cognome_register):"";
                     String e = errori.get(R.id.email_register)!= null? errori.get(R.id.email_register):"";
-                    String p = errori.get(R.id.pwd_register) != null?errori.get(R.id.pwd_register):"";
-                    String s = errori.get(R.id.sesso_register) != null?errori.get(R.id.sesso_register):"";
+                    String p = errori.get(R.id.pwd_register) != null? errori.get(R.id.pwd_register):"";
+                    String cp = errori.get(R.id.conferma_pwd_register) != null? errori.get(R.id.conferma_pwd_register):"";
+                    String s = errori.get(R.id.sesso_register) != null? errori.get(R.id.sesso_register):"";
 
                     if (n.length()> 0){
                         nome.setText("");
@@ -165,6 +167,11 @@ public class RegisterActivity extends AppCompatActivity {
                     if (p.length()> 0){
                         pwd.setText("");
                         pwd.setHint(p);
+                    }
+
+                    if (cp.length()> 0){
+                        conferma_pwd.setText("");
+                        conferma_pwd.setHint(cp);
                     }
 
                     if (s.length() >0){
@@ -193,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
         return encodedfile;
     }
 
-    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, RadioGroup sesso) {
+    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd,EditText conferma_pwd, RadioGroup sesso) {
         boolean risposta = true;
 
         String name_regex = "^[\\p{L}\\s.'\\-,]+$";
@@ -236,6 +243,21 @@ public class RegisterActivity extends AppCompatActivity {
             if (pwd.length() < 6) {
                 map.put(pwd.getId(), "La password deve avere almeno sei caratteri");
                 risposta = false;
+            }
+        }
+
+        if (conferma_pwd.getText().length() == 0) {
+            map.put(conferma_pwd.getId(), "Inserisci la password");
+            risposta = false;
+        } else {
+            if (conferma_pwd.length() < 6) {
+                map.put(conferma_pwd.getId(), "La password deve avere almeno sei caratteri");
+                risposta = false;
+            } else {
+                if (pwd.equals(conferma_pwd)){
+                    map.put(conferma_pwd.getId(), "Le due password non coincidono");
+                    risposta = false;
+                }
             }
         }
 
