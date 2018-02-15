@@ -28,10 +28,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText email = (EditText) findViewById(R.id.email);
-        final EditText pwd = (EditText) findViewById(R.id.password);
-        final TextView reg = (TextView) findViewById(R.id.registrati);
-        Button accedi = (Button) findViewById(R.id.accedi);
+        final EditText email = (EditText) findViewById(R.id.email_login);
+        final EditText pwd = (EditText) findViewById(R.id.pwd_login);
+        final TextView registrati = (TextView) findViewById(R.id.registrati_login);
+        Button accedi = (Button) findViewById(R.id.accedi_login);
 
         final SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
@@ -80,8 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                     RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                     requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, cbf));
                 } else {
-                    String e = errori.get(R.id.email)!= null? errori.get(R.id.email):"";
-                    String p = errori.get(R.id.password) != null?errori.get(R.id.password):"";
+                    String e = errori.get(R.id.email_login)!= null? errori.get(R.id.email_login):"";
+                    String p = errori.get(R.id.pwd_login) != null?errori.get(R.id.pwd_login):"";
+
                     if (e.length()> 0){
                         email.setText("");
                         email.setHint(e);
@@ -98,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        reg.setOnClickListener(new View.OnClickListener() {
+        registrati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -107,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected boolean validator(Map<Integer, String> map, EditText email, EditText password) {
+    protected boolean validator(Map<Integer, String> map, EditText email, EditText pwd) {
+        map.clear();
         boolean risposta = true;
 
         if (email.getText().length() == 0) {
@@ -115,13 +117,13 @@ public class LoginActivity extends AppCompatActivity {
             risposta = false;
         } else {
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
-              map.put(email.getId(), "Formato mail non corretto");
+                map.put(email.getId(), "Formato mail non corretto");
                 risposta = false;
             }
         }
 
-        if (password.length() < 6) {
-            map.put(password.getId(),"Inserisci una password corretta");
+        if (pwd.length() < 6) {
+            map.put(pwd.getId(),"Inserisci una password corretta");
             risposta = false;
         }
 

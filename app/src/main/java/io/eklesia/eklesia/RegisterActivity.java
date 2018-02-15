@@ -25,6 +25,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,26 +36,28 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText nome = (EditText) findViewById(R.id.nome);
-        final EditText cognome = (EditText) findViewById(R.id.cognome);
-        final EditText email = (EditText) findViewById(R.id.email_reg);
-        final EditText pwd = (EditText) findViewById(R.id.pwd);
-        final EditText data_nascita = (EditText) findViewById(R.id.data_nascita);
-        final EditText sesso = (EditText) findViewById(R.id.sesso);
-        //final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso);
-        ImageButton add_photo = (ImageButton) findViewById(R.id.add_photo);
-        final ImageView pic = (ImageView) findViewById(R.id.pic);
-        Button conferma_reg = (Button) findViewById(R.id.conferma_reg);
+        final EditText nome = (EditText) findViewById(R.id.nome_register);
+        final EditText cognome = (EditText) findViewById(R.id.cognome_register);
+        final EditText email = (EditText) findViewById(R.id.email_register);
+        final EditText pwd = (EditText) findViewById(R.id.pwd_register);
+        final EditText data_nascita = (EditText) findViewById(R.id.data_nascita_register);
+        final EditText sesso = (EditText) findViewById(R.id.sesso_register);
+        //final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
+        ImageButton add_photo = (ImageButton) findViewById(R.id.add_photo_register);
+        final ImageView pic = (ImageView) findViewById(R.id.pic_register);
+        Button conferma = (Button) findViewById(R.id.conferma_register);
 
         final SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
+
+        final Map<Integer, String> errori = new HashMap<>();
 
         final JSONObject jsonObject = new JSONObject();
 
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                Snackbar.make((LinearLayout) findViewById(R.id.layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                Snackbar.make((LinearLayout) findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(RegisterActivity.this, DashboardActivity.class);
                 startActivity(i);
             }
@@ -70,23 +75,57 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        conferma_reg.setOnClickListener(new View.OnClickListener() {
+        conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    jsonObject.put("nome", nome.getText());
-                    jsonObject.put("cognome", cognome.getText());
-                    jsonObject.put("email", email.getText());
-                    jsonObject.put("password", pwd.getText());
-                    jsonObject.put("password_confirmation", pwd.getText());
-                    jsonObject.put("data_nascita", data_nascita.getText());
-                    jsonObject.put("sesso", sesso.getText());
-                    //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
-                    requestQueue.add(Connessione.sendPost(null, "api/utente", jsonObject, cbf));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (validator(errori, nome, cognome, email, pwd)) {
+
+                    try {
+                        jsonObject.put("nome", nome.getText());
+                        jsonObject.put("cognome", cognome.getText());
+                        jsonObject.put("email", email.getText());
+                        jsonObject.put("password", pwd.getText());
+                        jsonObject.put("password_confirmation", pwd.getText());
+                        jsonObject.put("data_nascita", data_nascita.getText());
+                        jsonObject.put("sesso", sesso.getText());
+                        //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
+
+                        RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
+                        requestQueue.add(Connessione.sendPost(null, "api/utente", jsonObject, cbf));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    String n = errori.get(R.id.nome_register)!= null? errori.get(R.id.nome_register):"";
+                    String c = errori.get(R.id.cognome_register) != null?errori.get(R.id.cognome_register):"";
+                    String e = errori.get(R.id.email_register)!= null? errori.get(R.id.email_register):"";
+                    String p = errori.get(R.id.pwd_register) != null?errori.get(R.id.pwd_register):"";
+
+                    if (n.length()> 0){
+                        nome.setText("");
+                        nome.setHint(n);
+                    }
+
+                    if (c.length()> 0){
+                        cognome.setText("");
+                        cognome.setHint(c);
+                    }
+
+                    if (e.length()> 0){
+                        email.setText("");
+                        email.setHint(e);
+                    }
+
+                    if (p.length()> 0){
+                        pwd.setText("");
+                        pwd.setHint(p);
+                    }
+
+                    Snackbar.make(findViewById(R.id.register_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -100,13 +139,61 @@ public class RegisterActivity extends AppCompatActivity {
             fileInputStreamReader.read(bytes);
             encodedfile = Base64.encodeToString(bytes, 1);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         return encodedfile;
+    }
+
+    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd) {
+        map.clear();
+        boolean risposta = true;
+
+        String name_regex = "^[\\p{L}\\s.'\\-,]+$";
+        Pattern pattern = Pattern.compile(name_regex, Pattern.CASE_INSENSITIVE);
+
+        if (nome.getText().length() == 0) {
+            map.put(nome.getId(), "Inserisci il nome");
+            risposta = false;
+        } else {
+            if (!pattern.matcher(nome.getText()).find()) {
+                map.put(nome.getId(), "Formato nome non corretto");
+                risposta = false;
+            }
+        }
+
+        if (cognome.getText().length() == 0) {
+            map.put(cognome.getId(), "Inserisci il cognome");
+            risposta = false;
+        } else {
+            if (!pattern.matcher(cognome.getText()).find()) {
+                map.put(cognome.getId(), "Formato cognome non corretto");
+                risposta = false;
+            }
+        }
+
+        if (email.getText().length() == 0) {
+            map.put(email.getId(), "Inserisci la mail");
+            risposta = false;
+        } else {
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
+                map.put(email.getId(), "Formato mail non corretto");
+                risposta = false;
+            }
+        }
+
+        if (pwd.getText().length() == 0) {
+            map.put(pwd.getId(), "Inserisci la password");
+            risposta = false;
+        } else {
+            if (pwd.length() < 6) {
+                map.put(pwd.getId(), "La password deve avere almeno sei caratteri");
+                risposta = false;
+            }
+        }
+
+        return risposta;
     }
 }
