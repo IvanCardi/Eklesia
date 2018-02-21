@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,10 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         final TextView registrati = (TextView) findViewById(R.id.registrati_login);
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
-        final SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
-
-        final String primo_accesso = sp.getString("primo_accesso", null);
+        final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor_connection = sp_connection.edit();
 
         final JSONObject jsonObject = new JSONObject();
         //final String client_id = "1";
@@ -48,18 +47,15 @@ public class LoginActivity extends AppCompatActivity {
 
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
-            public void onResponse(JSONObject risposta) throws JSONException {
-                editor.putString("a_token", risposta.getString("access_token"));
-                editor.putString("r_token", risposta.getString("refresh_token"));
-                editor.commit();
+            public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                editor_connection.putString("a_token", risposta.getString("access_token"));
+                editor_connection.putString("r_token", risposta.getString("refresh_token"));
+                editor_connection.commit();
 
-                if (primo_accesso!= null) {
-                    Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(LoginActivity.this, ScegliChiesaPrimoAccessoActivity.class);
-                    startActivity(i);
-                }
+                Utente.setAll(risposta);
+
+                Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
+                startActivity(i);
             }
 
             @Override

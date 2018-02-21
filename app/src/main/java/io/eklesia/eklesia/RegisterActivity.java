@@ -57,10 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
         final ImageView pic = (ImageView) findViewById(R.id.pic_register);
         Button conferma = (Button) findViewById(R.id.conferma_register);
 
-
-        final SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
-
         final Map<Integer, String> errori = new HashMap<>();
 
         final JSONObject jsonObject = new JSONObject();
@@ -68,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         final CallbackFunction cbf = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                Snackbar.make((LinearLayout) findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(i);
             }
@@ -117,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 int scelta = sesso.getCheckedRadioButtonId();
                 RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
@@ -260,8 +256,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         }
-
-
 
         if(sesso.getCheckedRadioButtonId() == -1){
             map.put(sesso.getId(), "Seleziona il sesso");

@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
 
 public class Connessione {
     // String pref = "http://192.168.1.5/portale/public/";
-    static String pref = "http://192.168.1.4/";
+    static String pref = "http://192.168.1.75/";
     boolean risposta;
 
     public Connessione(){
@@ -37,6 +38,8 @@ public class Connessione {
                 try {
                     cbf.onResponse(response);
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -81,6 +84,8 @@ public class Connessione {
                 try {
                     cbf.onResponse(response);
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }

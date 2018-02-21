@@ -17,14 +17,14 @@ public class ScegliChiesaPrimoAccessoActivity extends AppCompatActivity {
 
         Button skip = (Button) findViewById(R.id.skip_scegli_chiesa_primo_accesso);
 
-        final SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
+        final SharedPreferences sp_utente = getApplicationContext().getSharedPreferences("utente_" + Utente.getId_utente(), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor_utente = sp_utente.edit();
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editor.putString("primo_accesso", "mishu_e'_una_banana");
-                editor.commit();
+                editor_utente.putString("primo_accesso", "1");
+                editor_utente.commit();
                 Intent i = new Intent(ScegliChiesaPrimoAccessoActivity.this, DashboardActivity.class);
                 startActivity(i);
             }

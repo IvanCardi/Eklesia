@@ -25,17 +25,27 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        final SharedPreferences sp_utente=getApplicationContext().getSharedPreferences("utente_" + Utente.getId_utente() , Context.MODE_PRIVATE);
+        int primo_accesso = Integer.parseInt(sp_utente.getString("primo_accesso", "0"));
+
+        if (primo_accesso == 0){
+            Intent i = new Intent(DashboardActivity.this, ScegliChiesaPrimoAccessoActivity.class);
+            startActivity(i);
+        }
+
         Button logout = (Button) findViewById(R.id.logout_dashboard);
 
-        final SharedPreferences sp=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
+        final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor_connection = sp_connection.edit();
+
+
 
         final CallbackFunction cbf_logout = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                editor.putString("a_token", null);
-                editor.putString("r_token", null);
-                editor.commit();
+                editor_connection.putString("a_token", null);
+                editor_connection.putString("r_token", null);
+                editor_connection.commit();
                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(i);
             }
@@ -50,9 +60,10 @@ public class DashboardActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
                 Map<String,String> map= new HashMap<>();
-                map.put("a_token",sp.getString("a_token",""));
+                map.put("a_token",sp_connection.getString("a_token",""));
+
+                RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
                 requestQueue.add(Connessione.sendPost(map,"api/utente/logout",null, cbf_logout));
             }
         });
