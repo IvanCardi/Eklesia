@@ -29,7 +29,7 @@ public class DashboardActivity extends AppCompatActivity {
         int primo_accesso = Integer.parseInt(sp_utente.getString("primo_accesso", "0"));
 
         if (primo_accesso == 0){
-            Intent i = new Intent(DashboardActivity.this, ScegliChiesaPrimoAccessoActivity.class);
+            Intent i = new Intent(DashboardActivity.this, ConfigurazionePrimoAccessoActivity.class);
             startActivity(i);
         }
 
