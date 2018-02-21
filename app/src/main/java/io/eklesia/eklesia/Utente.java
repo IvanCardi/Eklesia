@@ -48,7 +48,7 @@ public class Utente {
         if (chiese_seguite_j != null) {
             int len = chiese_seguite_j.length();
             for (int i=0;i<len;i++){
-                chiese_seguite.add(Integer.parseInt(chiese_seguite_j.get(i).toString()));
+                chiese_seguite.add(Integer.parseInt(chiese_seguite_j.getJSONObject(i).getString("id")));
             }
         }
 
@@ -56,7 +56,7 @@ public class Utente {
         if (eventi_seguiti_j != null) {
             int len = eventi_seguiti_j.length();
             for (int i=0;i<len;i++){
-                eventi_seguiti.add(Integer.parseInt(eventi_seguiti.get(i).toString()));
+                eventi_seguiti.add(Integer.parseInt(eventi_seguiti_j.getJSONObject(i).getString("id")));
             }
         }
     }
