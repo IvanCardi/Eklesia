@@ -26,25 +26,24 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         final SharedPreferences sp_utente=getApplicationContext().getSharedPreferences("utente_" + Utente.getIdUtente() , Context.MODE_PRIVATE);
-        int primo_accesso = Integer.parseInt(sp_utente.getString("primo_accesso", "0"));
-
+        int primo_accesso =sp_utente.getInt("primo_accesso", 0);
         if (primo_accesso == 0){
             Intent i = new Intent(DashboardActivity.this, ConfigurazionePrimoAccessoActivity.class);
             startActivity(i);
         }
+        final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         Button logout = (Button) findViewById(R.id.logout_dashboard);
 
-        final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor_connection = sp_connection.edit();
+
 
 
 
         final CallbackFunction cbf_logout = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException {
-                editor_connection.putString("a_token", null);
-                editor_connection.putString("r_token", null);
+                SharedPreferences.Editor editor_connection = sp_connection.edit();
+                editor_connection.clear();
                 editor_connection.commit();
                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(i);
@@ -60,6 +59,7 @@ public class DashboardActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Map<String,String> map= new HashMap<>();
                 map.put("a_token",sp_connection.getString("a_token",""));
 

@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor_connection = sp_connection.edit();
+
 
         final JSONObject jsonObject = new JSONObject();
 
@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         final CallbackFunction RispostaLogin = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                SharedPreferences.Editor editor_connection = sp_connection.edit();
                 editor_connection.putString("a_token", risposta.getString("access_token"));
                 editor_connection.putString("r_token", risposta.getString("refresh_token"));
                 editor_connection.commit();
@@ -51,7 +52,9 @@ public class LoginActivity extends AppCompatActivity {
                 CallbackFunction RispostaGetInformazioni = new CallbackFunction() {
                     @Override
                     public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                        Utente.setAll(risposta.getJSONObject("utente"));
+                        Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
+                        Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
+                        startActivity(i);
                     }
 
                     @Override
@@ -66,8 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue( LoginActivity.this);
                 requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
 
-                Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
-                startActivity(i);
+
             }
 
             @Override

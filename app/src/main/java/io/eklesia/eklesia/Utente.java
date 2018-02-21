@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -22,43 +21,51 @@ public class Utente {
     static private String email;
     static private Date data_nascita;
     static private boolean maschio;
-    static private int id_chiesa_appartenenza;
-    static private ArrayList <Integer> chiese_seguite;
-    static private ArrayList <Integer> eventi_seguiti;
+    static private Integer id_chiesa;
+    static private ArrayList <Integer> chiese_seguite=new ArrayList<>();
+    static private ArrayList <Integer> eventi_seguiti=new ArrayList<>();
 
     public static void setAll(JSONObject utente) throws JSONException, ParseException {
 
         JSONArray chiese_seguite_j;
         JSONArray eventi_seguiti_j;
 
-        Utente.id_utente = utente.getInt("id_utente");
+        Utente.id_utente = utente.getInt("id");
         Utente.nome = utente.getString("nome");
         Utente.cognome = utente.getString("cognome");
         Utente.email = utente.getString("email");
-        Utente.maschio = utente.getBoolean("sesso");
+        Utente.setMaschio(utente.getInt("sesso"));
 
         SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd");
         Utente.data_nascita = df.parse(utente.getString("data_nascita"));
+        if(utente.isNull("id_chiesa"))
+            Utente.setChiesaAppartenenza(null);
+        else
+            Utente.setChiesaAppartenenza(utente.getInt("id_chiesa"));
 
-        Utente.id_chiesa_appartenenza = utente.getInt("id_chiesa_appartenenza");
-
-
-
-        chiese_seguite_j = utente.getJSONArray("chiese_seguite");
-        if (chiese_seguite_j != null) {
-            int len = chiese_seguite_j.length();
-            for (int i=0;i<len;i++){
-                chiese_seguite.add(Integer.parseInt(chiese_seguite_j.getJSONObject(i).getString("id")));
-            }
-        }
-
-        eventi_seguiti_j = utente.getJSONArray("utenti_seguiti");
-        if (eventi_seguiti_j != null) {
+        eventi_seguiti_j = utente.getJSONArray("eventi_seguiti");
+        if (eventi_seguiti_j.length()>0) {
             int len = eventi_seguiti_j.length();
             for (int i=0;i<len;i++){
-                eventi_seguiti.add(Integer.parseInt(eventi_seguiti_j.getJSONObject(i).getString("id")));
+                Utente.eventi_seguiti.add(eventi_seguiti_j.getJSONObject(i).getInt("id"));
+            }
+        }else{
+            int b=1+2;
+            int c;
+            c=b+4;
+
+        }
+
+        chiese_seguite_j = utente.getJSONArray("chiese_seguite");
+        if (chiese_seguite_j.length()>0) {
+            int len = chiese_seguite_j.length();
+
+            for (int i=0;i<len;i++){
+                Utente.chiese_seguite.add(chiese_seguite_j.getJSONObject(i).getInt("id"));
             }
         }
+
+
     }
 
     public static int getIdUtente(){
@@ -101,16 +108,19 @@ public class Utente {
         return maschio;
     }
 
-    public static void setMaschio(boolean maschio) {
-        Utente.maschio = maschio;
+    public static void setMaschio(int maschio) {
+        if(maschio==1)
+            Utente.maschio = true;
+        else
+            Utente.maschio=false;
     }
 
     public static int getChiesaAppartenenza() {
-        return id_chiesa_appartenenza;
+        return id_chiesa;
     }
 
-    public static void setChiesaAppartenenza(int id_chiesa_appartenenza) {
-        Utente.id_chiesa_appartenenza = id_chiesa_appartenenza;
+    public static void setChiesaAppartenenza(Integer id_chiesa_appartenenza) {
+            Utente.id_chiesa = id_chiesa_appartenenza;
     }
 
     public static void addChiesa (Integer chiesa){
