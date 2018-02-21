@@ -38,21 +38,33 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor_connection = sp_connection.edit();
 
         final JSONObject jsonObject = new JSONObject();
-        //final String client_id = "1";
-        //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
-        final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
 
         final Map<Integer, String> errori = new HashMap<>();
 
-        final CallbackFunction cbf = new CallbackFunction() {
+        final CallbackFunction RispostaLogin = new CallbackFunction() {
             @Override
             public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                 editor_connection.putString("a_token", risposta.getString("access_token"));
                 editor_connection.putString("r_token", risposta.getString("refresh_token"));
                 editor_connection.commit();
 
-                Utente.setAll(risposta);
+                CallbackFunction RispostaGetInformazioni = new CallbackFunction() {
+                    @Override
+                    public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                        Utente.setAll(risposta.getJSONObject("utente"));
+                    }
+
+                    @Override
+                    public void onError(JSONObject risposta) throws JSONException {
+
+                    }
+                };
+
+                Map<String,String> map= new HashMap<>();
+                map.put("a_token",sp_connection.getString("a_token",""));
+
+                RequestQueue requestQueue = Volley.newRequestQueue( LoginActivity.this);
+                requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
 
                 Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
                 startActivity(i);
@@ -67,13 +79,14 @@ public class LoginActivity extends AppCompatActivity {
         accedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 boolean risposta = validator(errori, email, pwd);
 
                 if (risposta) {
                     try {
                         jsonObject.put("grant_type", "password");
-                        jsonObject.put("client_id", client_id);
-                        jsonObject.put("client_secret", client_secret);
+                        jsonObject.put("client_id", getString(R.string.client_id));
+                        jsonObject.put("client_secret",getString(R.string.client_secret));
                         jsonObject.put("username", email.getText());
                         jsonObject.put("password", pwd.getText());
 
@@ -81,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                    requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, cbf));
+                    requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, RispostaLogin));
+
                 } else {
                     String e = errori.get(R.id.email_login)!= null? errori.get(R.id.email_login):"";
                     String p = errori.get(R.id.pwd_login) != null?errori.get(R.id.pwd_login):"";

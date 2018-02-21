@@ -1,14 +1,10 @@
 package io.eklesia.eklesia;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +19,8 @@ import java.util.Map;
  */
 
 public class Connessione {
-    // String pref = "http://192.168.1.5/portale/public/";
-    static String pref = "http://192.168.1.75/";
+
+    static String base_url = "https://eklesia-195019.appspot.com/";
     boolean risposta;
 
     public Connessione(){
@@ -32,7 +28,7 @@ public class Connessione {
     }
 
     public static JsonObjectRequest sendGet(final Map<?,?> parametri, String uri, final CallbackFunction cbf){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, pref + uri, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, base_url + uri, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -78,7 +74,7 @@ public class Connessione {
     }
 
     public static JsonObjectRequest sendPost(final Map<?,?> parametri, String uri, final JSONObject jsonObject, final CallbackFunction cbf){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, pref + uri, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, base_url + uri, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

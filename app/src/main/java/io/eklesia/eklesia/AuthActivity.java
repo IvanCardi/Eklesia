@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,19 +29,15 @@ public class AuthActivity extends AppCompatActivity {
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor_connection = sp_connection.edit();
 
-        //final String client_id = "1";
-        //final String client_secret = "mlJHYMcFYLDTzjxio1SR7crta42sEAvzr21WXAxj";
-        final String client_id = "3";
-        final String client_secret = "PgAXIt0XZFe32G7BbJKOKWEUriZd720rj2AXJ19Q";
-
         final String a_token =sp_connection.getString("a_token",null);
         final String r_token = sp_connection.getString("r_token",null);
 
         if(a_token != null && r_token != null)
         {
-            CallbackFunction cbf = new CallbackFunction() {
+            CallbackFunction RispostaConAccessToken= new CallbackFunction() {
                 @Override
-                public void onResponse(JSONObject risposta) {
+                public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                        Utente.setAll(risposta.getJSONObject("utente"));
                         Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                         startActivity(i);
                 }
@@ -48,17 +46,35 @@ public class AuthActivity extends AppCompatActivity {
                 public void onError(JSONObject risposta) throws JSONException {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("grant_type", "refresh_token");
-                    jsonObject.put("client_id", client_id);
-                    jsonObject.put("client_secret", client_secret);
+                    jsonObject.put("client_id", getString(R.string.client_id));
+                    jsonObject.put("client_secret", getString(R.string.client_secret));
                     jsonObject.put("refresh_token", r_token);
 
-                    CallbackFunction cbf2 = new CallbackFunction() {
+                    CallbackFunction RispostaConRefreshToken = new CallbackFunction() {
                         @Override
-                        public void onResponse(JSONObject risposta) throws JSONException {
+                        public void onResponse(JSONObject risposta) throws JSONException, ParseException {
 
                             editor_connection.putString("a_token", risposta.getString("access_token"));
                             editor_connection.putString("r_token", risposta.getString("refresh_token"));
                             editor_connection.commit();
+
+                            CallbackFunction RispostaGetInformazioni = new CallbackFunction() {
+                                @Override
+                                public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                                    Utente.setAll(risposta.getJSONObject("utente"));
+                                }
+
+                                @Override
+                                public void onError(JSONObject risposta) throws JSONException {
+
+                                }
+                            };
+
+                            Map<String,String> map= new HashMap<>();
+                            map.put("a_token",sp_connection.getString("a_token",""));
+
+                            RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
+                            requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
 
                             Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                             startActivity(i);
@@ -70,16 +86,16 @@ public class AuthActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     };
-
                     RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                    requestQueue.add(Connessione.sendPost(null,"oauth/token", jsonObject, cbf2));
+                    requestQueue.add(Connessione.sendPost(null,"oauth/token", jsonObject, RispostaConRefreshToken));
                 }
             };
 
             Map<String,String> map= new HashMap<>();
             map.put("a_token",sp_connection.getString("a_token",""));
+
             RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-            requestQueue.add(Connessione.sendGet(map,"api/utente", cbf));
+            requestQueue.add(Connessione.sendGet(map,"api/utente", RispostaConAccessToken));
         }
         else{
             Intent i = new Intent(AuthActivity.this, LoginActivity.class);

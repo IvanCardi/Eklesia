@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Eklesia</string>
     <string name="preference_file_key">io.eklesia.eklesia.preferences_file_key</string>
+    <string name="base_url">https://eklesia-195019.appspot.com/</string>
+    <string name="client_id">1</string>
+    <string name="client_secret">bD0YdrFwFjDbdlcQ2qtxF0pc2KRKqT89xDkd7jo9</string>
 </resources>

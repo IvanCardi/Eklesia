@@ -23,12 +23,13 @@ public class Utente {
     static private Date data_nascita;
     static private boolean maschio;
     static private int id_chiesa_appartenenza;
-    static private JSONArray chiese_seguite_j;
-    static private JSONArray eventi_seguiti_j;
     static private ArrayList <Integer> chiese_seguite;
     static private ArrayList <Integer> eventi_seguiti;
 
     public static void setAll(JSONObject utente) throws JSONException, ParseException {
+
+        JSONArray chiese_seguite_j;
+        JSONArray eventi_seguiti_j;
 
         Utente.id_utente = utente.getInt("id_utente");
         Utente.nome = utente.getString("nome");
@@ -40,7 +41,8 @@ public class Utente {
         Utente.data_nascita = df.parse(utente.getString("data_nascita"));
 
         Utente.id_chiesa_appartenenza = utente.getInt("id_chiesa_appartenenza");
-        Chiesa.setId_chiesa(id_chiesa_appartenenza);
+
+
 
         chiese_seguite_j = utente.getJSONArray("chiese_seguite");
         if (chiese_seguite_j != null) {
@@ -58,9 +60,11 @@ public class Utente {
             }
         }
     }
-    public static int getId_utente(){
+
+    public static int getIdUtente(){
         return id_utente;
     }
+
     public static String getNome() {
         return nome;
     }
@@ -85,11 +89,11 @@ public class Utente {
         Utente.email = email;
     }
 
-    public static Date getData_nascita() {
+    public static Date getDataNascita() {
         return data_nascita;
     }
 
-    public static void setData_nascita(Date data_nascita) {
+    public static void setDataNascita(Date data_nascita) {
         Utente.data_nascita = data_nascita;
     }
 
@@ -101,11 +105,11 @@ public class Utente {
         Utente.maschio = maschio;
     }
 
-    public static int getChiesa_appartenenza() {
+    public static int getChiesaAppartenenza() {
         return id_chiesa_appartenenza;
     }
 
-    public static void setChiesa_appartenenza(int id_chiesa_appartenenza) {
+    public static void setChiesaAppartenenza(int id_chiesa_appartenenza) {
         Utente.id_chiesa_appartenenza = id_chiesa_appartenenza;
     }
 

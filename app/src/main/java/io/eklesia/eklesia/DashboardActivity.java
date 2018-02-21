@@ -25,7 +25,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        final SharedPreferences sp_utente=getApplicationContext().getSharedPreferences("utente_" + Utente.getId_utente() , Context.MODE_PRIVATE);
+        final SharedPreferences sp_utente=getApplicationContext().getSharedPreferences("utente_" + Utente.getIdUtente() , Context.MODE_PRIVATE);
         int primo_accesso = Integer.parseInt(sp_utente.getString("primo_accesso", "0"));
 
         if (primo_accesso == 0){
