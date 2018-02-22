@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
             }
         };
 

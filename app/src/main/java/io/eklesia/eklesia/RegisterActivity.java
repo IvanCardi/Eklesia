@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.register_layout), risposta.getString("message"), Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
                /* JSONObject jObj= risposta.getJSONObject("errors");
                   for(int i = 0; i< jsonArray.length(); i++){
                     JSONObject jsObj = jsonArray.getJSONObject(i);
