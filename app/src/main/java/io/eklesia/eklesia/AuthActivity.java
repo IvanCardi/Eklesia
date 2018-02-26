@@ -37,7 +37,9 @@ public class AuthActivity extends AppCompatActivity {
         if(a_token.equals("") && r_token.equals(""))
         {
             Intent i = new Intent(AuthActivity.this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+            finish();
         }
         else{
 
@@ -46,7 +48,9 @@ public class AuthActivity extends AppCompatActivity {
                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                     Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
+                    finish();
                 }
 
                 @Override
@@ -70,7 +74,9 @@ public class AuthActivity extends AppCompatActivity {
                                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                                     Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
                                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);
+                                    finish();
                                 }
 
                                 @Override
@@ -91,7 +97,9 @@ public class AuthActivity extends AppCompatActivity {
                         @Override
                         public void onError(JSONObject risposta) {
                             Intent i = new Intent(AuthActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
+                            finish();
                         }
                     };
                     RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);

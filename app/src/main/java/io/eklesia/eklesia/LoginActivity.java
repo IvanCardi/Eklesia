@@ -54,7 +54,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                         Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
                         Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override
@@ -121,7 +123,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                finish();
             }
         });
     }

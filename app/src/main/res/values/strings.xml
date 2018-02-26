@@ -4,4 +4,7 @@
     <string name="base_url">https://eklesia-195019.appspot.com/</string>
     <string name="client_id">1</string>
     <string name="client_secret">bD0YdrFwFjDbdlcQ2qtxF0pc2KRKqT89xDkd7jo9</string>
+
+    <!--stringhe per user interface-->
+    <string name="esci_applicazione_secondo_click">Premi un\'altra volta per uscire</string>
 </resources>

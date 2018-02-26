@@ -22,10 +22,6 @@ public class ConfigurazionePrimoAccessoActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sp_utente = getApplicationContext().getSharedPreferences("utente_" + Utente.getIdUtente(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor_utente = sp_utente.edit();
-                editor_utente.putInt("primo_accesso", 1);
-                editor_utente.commit();
                 Intent i = new Intent(ConfigurazionePrimoAccessoActivity.this, DashboardActivity.class);
                 startActivity(i);
             }
