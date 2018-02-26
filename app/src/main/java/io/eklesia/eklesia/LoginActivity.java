@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,9 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText email = (EditText) findViewById(R.id.email_login);
-        final EditText pwd = (EditText) findViewById(R.id.pwd_login);
-        final TextView registrati = (TextView) findViewById(R.id.registrati_login);
+        final TextInputEditText email = (TextInputEditText) findViewById(R.id.email_edit_text_login);
+        final TextInputEditText pwd = (TextInputEditText) findViewById(R.id.password_edit_text_login);
+        final Button registrati = (Button) findViewById(R.id.registrati_login);
+        final TextInputLayout emailTextInput= (TextInputLayout) findViewById(R.id.email_text_input_login);
+        final TextInputLayout passwordTextInput= (TextInputLayout) findViewById(R.id.password_text_input_login);
+
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -101,21 +108,53 @@ public class LoginActivity extends AppCompatActivity {
                     requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, RispostaLogin));
 
                 } else {
-                    String e = errori.get(R.id.email_login)!= null? errori.get(R.id.email_login):"";
-                    String p = errori.get(R.id.pwd_login) != null?errori.get(R.id.pwd_login):"";
+                    String e = errori.get(R.id.email_edit_text_login)!= null? errori.get(R.id.email_edit_text_login):"";
+                    String p = errori.get(R.id.password_edit_text_login) != null?errori.get(R.id.password_edit_text_login):"";
 
                     if (e.length()> 0){
-                        email.setText("");
-                        email.setHint(e);
+                        emailTextInput.setError(e);
                     }
 
                     if (p.length()> 0){
-                        pwd.setText("");
-                        pwd.setHint(p);
+                        passwordTextInput.setError(p);
                     }
 
-                    Snackbar.make(findViewById(R.id.login_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(emailTextInput.getError()!=null)
+                emailTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(passwordTextInput.getError()!=null)
+                    passwordTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -123,9 +162,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
-                finish();
             }
         });
     }

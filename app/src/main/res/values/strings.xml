@@ -7,4 +7,6 @@
 
     <!--stringhe per user interface-->
     <string name="esci_applicazione_secondo_click">Premi un\'altra volta per uscire</string>
+    <string name="stringa_email">Email</string>
+    <string name="stringa_password">Password</string>
 </resources>
