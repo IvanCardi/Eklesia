@@ -1,12 +1,17 @@
 package io.eklesia.eklesia;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -45,16 +50,29 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText nome = (EditText) findViewById(R.id.nome_register);
-        final EditText cognome = (EditText) findViewById(R.id.cognome_register);
-        final EditText email = (EditText) findViewById(R.id.email_register);
-        final EditText pwd = (EditText) findViewById(R.id.pwd_register);
-        final EditText conferma_pwd = (EditText) findViewById(R.id.conferma_pwd_register);
-        final EditText data_nascita = (EditText) findViewById(R.id.data_nascita_register);
-        final TextView sesso_message_register = (TextView) findViewById(R.id.sesso_message_register);
+        final TextInputLayout nomeTextInput= (TextInputLayout) findViewById(R.id.nome_text_input_register);
+        final TextInputLayout cognomeTextInput= (TextInputLayout) findViewById(R.id.cognome_text_input_register);
+        final TextInputLayout emailTextInput= (TextInputLayout) findViewById(R.id.email_text_input_register);
+        final TextInputLayout passwordTextInput= (TextInputLayout) findViewById(R.id.password_text_input_register);
+        final TextInputLayout confermaPasswordTextInput= (TextInputLayout) findViewById(R.id.conferma_password_text_input_register);
+        final TextInputLayout dataNascitaTextInput= (TextInputLayout) findViewById(R.id.data_nascita_text_input_register);
+
+
+        final TextInputEditText nome = (TextInputEditText) findViewById(R.id.nome_edit_text_register);
+        final TextInputEditText cognome = (TextInputEditText) findViewById(R.id.cognome_edit_text_register);
+        final TextInputEditText email = (TextInputEditText) findViewById(R.id.email_edit_text_register);
+        final TextInputEditText pwd = (TextInputEditText) findViewById(R.id.password_edit_text_register);
+        final TextInputEditText conferma_pwd = (TextInputEditText) findViewById(R.id.conferma_password_edit_text_register);
+        final TextInputEditText data_nascita = (TextInputEditText) findViewById(R.id.data_nascita_edit_text_register);
+
+        final TextView sesso_label = (TextView) findViewById(R.id.sesso_label_register);
+        final TextView sesso_message = (TextView) findViewById(R.id.sesso_message_register);
+
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
-        ImageButton add_photo = (ImageButton) findViewById(R.id.add_photo_register);
-        final ImageView pic = (ImageView) findViewById(R.id.pic_register);
+        final RadioButton femmina = (RadioButton) findViewById(R.id.f_register);
+
+        final Calendar dataNascita = Calendar.getInstance();
+
         Button conferma = (Button) findViewById(R.id.conferma_register);
 
         final Map<Integer, String> errori = new HashMap<>();
@@ -103,11 +121,28 @@ public class RegisterActivity extends AppCompatActivity {
                 }*/
             }
         };
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-        add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                pic.setImageResource(R.drawable.photo);
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                dataNascita.set(Calendar.YEAR, year);
+                dataNascita.set(Calendar.MONTH, monthOfYear);
+                dataNascita.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(data_nascita, dataNascita);
+            }
+
+        };
+
+        data_nascita.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(RegisterActivity.this, date, dataNascita
+                        .get(Calendar.YEAR), dataNascita.get(Calendar.MONTH),
+                        dataNascita.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -139,44 +174,139 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
 
-                    String n = errori.get(R.id.nome_register)!= null? errori.get(R.id.nome_register):"";
-                    String c = errori.get(R.id.cognome_register) != null? errori.get(R.id.cognome_register):"";
-                    String e = errori.get(R.id.email_register)!= null? errori.get(R.id.email_register):"";
-                    String p = errori.get(R.id.pwd_register) != null? errori.get(R.id.pwd_register):"";
-                    String cp = errori.get(R.id.conferma_pwd_register) != null? errori.get(R.id.conferma_pwd_register):"";
+                    String n = errori.get(R.id.nome_edit_text_register)!= null? errori.get(R.id.nome_edit_text_register):"";
+                    String c = errori.get(R.id.cognome_edit_text_register) != null? errori.get(R.id.cognome_edit_text_register):"";
+                    String e = errori.get(R.id.email_edit_text_register)!= null? errori.get(R.id.email_edit_text_register):"";
+                    String p = errori.get(R.id.password_edit_text_register) != null? errori.get(R.id.password_edit_text_register):"";
+                    String cp = errori.get(R.id.conferma_password_edit_text_register) != null? errori.get(R.id.conferma_password_edit_text_register):"";
                     String s = errori.get(R.id.sesso_register) != null? errori.get(R.id.sesso_register):"";
 
                     if (n.length()> 0){
-                        nome.setText("");
-                        nome.setHint(n);
+                        nomeTextInput.setError(n);
                     }
 
                     if (c.length()> 0){
-                        cognome.setText("");
-                        cognome.setHint(c);
+                        cognomeTextInput.setError(c);
+
                     }
 
                     if (e.length()> 0){
-                        email.setText("");
-                        email.setHint(e);
+                        emailTextInput.setError(e);
                     }
 
                     if (p.length()> 0){
-                        pwd.setText("");
-                        pwd.setHint(p);
+                        passwordTextInput.setError(p);
                     }
 
                     if (cp.length()> 0){
-                        conferma_pwd.setText("");
-                        conferma_pwd.setHint(cp);
+                        confermaPasswordTextInput.setError(cp);
                     }
 
                     if (s.length() >0){
-                        sesso_message_register.setText(s);
+                        sesso_message.setText(s);
                     }
 
                     Snackbar.make(findViewById(R.id.register_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        nome.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(nomeTextInput.getError()!=null)
+                    nomeTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        cognome.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(cognomeTextInput.getError()!=null)
+                    cognomeTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(emailTextInput.getError()!=null)
+                    emailTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(passwordTextInput.getError()!=null)
+                    passwordTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        conferma_pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(confermaPasswordTextInput.getError()!=null)
+                    confermaPasswordTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        sesso.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                sesso_label.setTextColor(R.color.grey);
+                sesso_message.setText("");
             }
         });
 
@@ -195,6 +325,12 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return encodedfile;
+    }
+
+    private void updateLabel(TextInputEditText data_nascita, Calendar dataNascita) {
+        String myFormat = "yyyy-mm-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
+        data_nascita.setText(sdf.format(dataNascita.getTime()));
     }
 
     protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, EditText conferma_pwd, RadioGroup sesso) {

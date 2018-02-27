@@ -35,10 +35,9 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextInputEditText email = (TextInputEditText) findViewById(R.id.email_edit_text_login);
         final TextInputEditText pwd = (TextInputEditText) findViewById(R.id.password_edit_text_login);
-        final Button registrati = (Button) findViewById(R.id.registrati_login);
         final TextInputLayout emailTextInput= (TextInputLayout) findViewById(R.id.email_text_input_login);
         final TextInputLayout passwordTextInput= (TextInputLayout) findViewById(R.id.password_text_input_login);
-
+        final Button registrati = (Button) findViewById(R.id.registrati_login);
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);

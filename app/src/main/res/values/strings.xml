@@ -9,4 +9,11 @@
     <string name="esci_applicazione_secondo_click">Premi un\'altra volta per uscire</string>
     <string name="stringa_email">Email</string>
     <string name="stringa_password">Password</string>
+    <string name="stringa_conferma_password">Conferma password</string>
+    <string name="stringa_nome">Nome</string>
+    <string name="stringa_cognome">Cognome</string>
+    <string name="stringa_data_nascita">Data di nascita</string>
+    <string name="stringa_accedi">Accedi</string>
+    <string name="stringa_registrati">Registrati</string>
+    <string name="stringa_sesso">Sesso</string>
 </resources>
