@@ -329,7 +329,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void updateLabel(TextInputEditText data_nascita, Calendar dataNascita) {
         String myFormat = "yyyy-mm-dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         data_nascita.setText(sdf.format(dataNascita.getTime()));
     }
 

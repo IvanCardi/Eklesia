@@ -11,16 +11,6 @@
     android:id="@+id/register_layout"
     tools:context="io.eklesia.eklesia.RegisterActivity">
 
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="REGISTRATI!"
-        android:textColor="@color/colorPrimary"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        style="@style/TextAppearance.AppCompat.Display2"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +42,7 @@
                 android:id="@+id/cognome_edit_text_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/stringa_email"
+                android:hint="@string/stringa_cognome"
                 android:inputType="text"/>
 
         </android.support.design.widget.TextInputLayout>
