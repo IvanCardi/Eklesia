@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -71,8 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
         final RadioButton femmina = (RadioButton) findViewById(R.id.f_register);
 
-        final Calendar dataNascita = Calendar.getInstance();
-
         Button conferma = (Button) findViewById(R.id.conferma_register);
 
         final Map<Integer, String> errori = new HashMap<>();
@@ -121,28 +120,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }*/
             }
         };
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                dataNascita.set(Calendar.YEAR, year);
-                dataNascita.set(Calendar.MONTH, monthOfYear);
-                dataNascita.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel(data_nascita, dataNascita);
-            }
-
-        };
 
         data_nascita.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(RegisterActivity.this, date, dataNascita
-                        .get(Calendar.YEAR), dataNascita.get(Calendar.MONTH),
-                        dataNascita.get(Calendar.DAY_OF_MONTH)).show();
+                showDatePickerDialog(v);
             }
         });
 
@@ -327,12 +310,6 @@ public class RegisterActivity extends AppCompatActivity {
         return encodedfile;
     }
 
-    private void updateLabel(TextInputEditText data_nascita, Calendar dataNascita) {
-        String myFormat = "yyyy-mm-dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        data_nascita.setText(sdf.format(dataNascita.getTime()));
-    }
-
     protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, EditText conferma_pwd, RadioGroup sesso) {
         map.clear();
         boolean risposta = true;
@@ -401,5 +378,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return risposta;
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_nascita_edit_text_register));
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }
