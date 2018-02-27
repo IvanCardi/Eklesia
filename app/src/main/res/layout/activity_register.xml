@@ -63,17 +63,11 @@
             android:inputType="text"/>
         </android.support.design.widget.TextInputLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/password_text_input_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -88,7 +82,7 @@
             android:id="@+id/conferma_password_text_input_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -100,12 +94,16 @@
 
         </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/data_nascita_text_input_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
@@ -117,8 +115,13 @@
             android:inputType="none"/>
 
     </android.support.design.widget.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    <TextView
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -132,11 +135,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/sesso_register">
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Maschio"
-            android:id="@+id/m_register" />
+            android:id="@+id/m_register"
+            android:checked="true"/>
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -152,7 +157,8 @@
         android:paddingBottom="8dp"
         android:textColor="#f44336"
         android:id="@+id/sesso_message_register"/>
-
+    </LinearLayout>
+    </LinearLayout>
 
     <Button
         style="?android:attr/borderlessButtonStyle"

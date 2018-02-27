@@ -288,7 +288,6 @@ public class RegisterActivity extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                sesso_label.setTextColor(R.color.grey);
                 sesso_message.setText("");
             }
         });
