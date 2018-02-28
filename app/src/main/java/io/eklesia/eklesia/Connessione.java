@@ -65,7 +65,8 @@ public class Connessione {
                 HashMap<String, String> headers = new HashMap<>();
                 //headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("Accept", "application/json");
-                headers.put("Authorization", "Bearer " + parametri.get("a_token"));
+                if(parametri!=null)
+                headers.put("Authorization", "Bearer " + (parametri.get("a_token")!=null?parametri.get("a_token"):""));
                 return headers;
             }
         };

@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final TextInputEditText email = (TextInputEditText) findViewById(R.id.email_edit_text_login);
-        final TextInputEditText pwd = (TextInputEditText) findViewById(R.id.password_edit_text_login);
-        final TextInputLayout emailTextInput= (TextInputLayout) findViewById(R.id.email_text_input_login);
-        final TextInputLayout passwordTextInput= (TextInputLayout) findViewById(R.id.password_text_input_login);
-        final Button registrati = (Button) findViewById(R.id.registrati_login);
+        final TextInputEditText emailEditText = (TextInputEditText) findViewById(R.id.email_edit_text_login);
+        final TextInputEditText pwdEditText = (TextInputEditText) findViewById(R.id.password_edit_text_login);
+        final TextInputLayout emailTextInput = (TextInputLayout) findViewById(R.id.email_text_input_login);
+        final TextInputLayout passwordTextInput = (TextInputLayout) findViewById(R.id.password_text_input_login);
+        final ImageButton registrati = (ImageButton) findViewById(R.id.registrati_login);
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -71,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
 
-                Map<String,String> map= new HashMap<>();
-                map.put("a_token",sp_connection.getString("a_token",""));
+                Map<String, String> map = new HashMap<>();
+                map.put("a_token", sp_connection.getString("a_token", ""));
 
-                RequestQueue requestQueue = Volley.newRequestQueue( LoginActivity.this);
+                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                 requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
 
 
@@ -90,15 +91,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                boolean risposta = validator(errori, email, pwd);
+                boolean risposta = validator(errori, emailEditText, pwdEditText);
 
                 if (risposta) {
                     try {
                         jsonObject.put("grant_type", "password");
                         jsonObject.put("client_id", getString(R.string.client_id));
-                        jsonObject.put("client_secret",getString(R.string.client_secret));
-                        jsonObject.put("username", email.getText());
-                        jsonObject.put("password", pwd.getText());
+                        jsonObject.put("client_secret", getString(R.string.client_secret));
+                        jsonObject.put("username", emailEditText.getText());
+                        jsonObject.put("password", pwdEditText.getText());
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -107,14 +108,14 @@ public class LoginActivity extends AppCompatActivity {
                     requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, RispostaLogin));
 
                 } else {
-                    String e = errori.get(R.id.email_edit_text_login)!= null? errori.get(R.id.email_edit_text_login):"";
-                    String p = errori.get(R.id.password_edit_text_login) != null?errori.get(R.id.password_edit_text_login):"";
+                    String e = errori.get(R.id.email_edit_text_login) != null ? errori.get(R.id.email_edit_text_login) : "";
+                    String p = errori.get(R.id.password_edit_text_login) != null ? errori.get(R.id.password_edit_text_login) : "";
 
-                    if (e.length()> 0){
+                    if (e.length() > 0) {
                         emailTextInput.setError(e);
                     }
 
-                    if (p.length()> 0){
+                    if (p.length() > 0) {
                         passwordTextInput.setError(p);
                     }
 
@@ -122,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        email.addTextChangedListener(new TextWatcher() {
+        emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -130,8 +131,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(emailTextInput.getError()!=null)
-                emailTextInput.setError("");
+                if (emailTextInput.getError() != null)
+                    emailTextInput.setError("");
             }
 
             @Override
@@ -139,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        pwd.addTextChangedListener(new TextWatcher() {
+        pwdEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -147,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(passwordTextInput.getError()!=null)
+                if (passwordTextInput.getError() != null)
                     passwordTextInput.setError("");
             }
 
@@ -160,8 +161,36 @@ public class LoginActivity extends AppCompatActivity {
         registrati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(i);
+                if (!validator(errori, emailEditText, pwdEditText)) {
+                    String e = errori.get(R.id.email_edit_text_login) != null ? errori.get(R.id.email_edit_text_login) : "";
+                    String p = errori.get(R.id.password_edit_text_login) != null ? errori.get(R.id.password_edit_text_login) : "";
+                    if (e.length() > 0) {
+                        emailTextInput.setError(e);
+                    }
+
+                    if (p.length() > 0) {
+                        passwordTextInput.setError(p);
+                    }
+
+                } else {
+                    CallbackFunction rispostaControlloEmail = new CallbackFunction() {
+                        @Override
+                        public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                            Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                            i.putExtra("email", emailEditText.getText().toString());
+                            i.putExtra("password", pwdEditText.getText().toString());
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onError(JSONObject risposta) throws JSONException {
+                            Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                        }
+                    };
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                    requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), rispostaControlloEmail));
+                }
             }
         });
     }
@@ -181,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (pwd.length() < 6) {
-            map.put(pwd.getId(),"Inserisci una password corretta");
+            map.put(pwd.getId(), "Inserisci una password corretta");
             risposta = false;
         }
 

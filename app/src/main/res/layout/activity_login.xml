@@ -1,76 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:paddingVertical="15dp"
-    android:paddingHorizontal="30dp"
-    android:layout_height="match_parent"
     android:id="@+id/login_layout"
-    tools:context="io.eklesia.eklesia.LoginActivity"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
 
-    <TextView
+    android:orientation="vertical"
+    android:paddingVertical="15dp"
+    tools:context="io.eklesia.eklesia.LoginActivity">
+
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:text="BENVENUTO!"
-        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        style="@style/TextAppearance.AppCompat.Display2"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_home_black_24dp"
+        android:tint="@color/colorAccent"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/email_text_input_login"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="64dp"
+        android:clipToPadding="false"
+        android:padding="16dp">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/email_edit_text_login"
+        <LinearLayout
+            android:id="@+id/login_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/stringa_email"
-            android:inputType="text"/>
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/rounded_borders_view"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:paddingBottom="31dp"
+            android:paddingHorizontal="25dp">
 
-    </android.support.design.widget.TextInputLayout>
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="LOGIN"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email_text_input_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/email_edit_text_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stringa_email"
+                    android:inputType="text"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/password_text_input_login"
-        android:layout_width="match_parent"
-        app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
-        android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password_text_input_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimary">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/password_edit_text_login"
-            android:layout_width="match_parent"
-            android:inputType="textPassword"
-            android:hint="@string/stringa_password"
-            android:layout_height="wrap_content"/>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password_edit_text_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stringa_password"
+                    android:inputType="textPassword"/>
 
-    </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stringa_accedi"
+                    android:textColor="@color/colorPrimary"/>
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stringa_registrati"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/colorPrimary"
+            android:id="@+id/accedi_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stringa_accedi"
-            android:id="@+id/accedi_login"/>
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stringa_registrati"
-            android:id="@+id/registrati_login"/>
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rounded_borders_button"
+            android:elevation="8dp"
+            android:paddingHorizontal="96dp"
+            android:paddingVertical="16dp"
+            android:shadowColor="@color/grey"
+            android:text="LOGIN"
+            android:textColor="@color/colorAccent"
+            app:layout_anchor="@id/login_card"
+            app:layout_anchorGravity="bottom|center"/>
+    </android.support.design.widget.CoordinatorLayout>
 
-
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/registrati_login"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_borders_button"
+        android:elevation="8dp"
+        android:src="@drawable/ic_person_add_black_24dp"
+        android:tint="@android:color/white"
+        android:textColor="@color/colorAccent"/>
+</RelativeLayout>

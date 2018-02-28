@@ -15,5 +15,6 @@
     <string name="stringa_data_nascita">Data di nascita</string>
     <string name="stringa_accedi">Accedi</string>
     <string name="stringa_registrati">Registrati</string>
+    <string name="stringa_conferma">Conferma</string>
     <string name="stringa_sesso">Sesso</string>
 </resources>

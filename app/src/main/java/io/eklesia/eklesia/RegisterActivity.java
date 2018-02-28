@@ -46,29 +46,27 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    String email;
+    String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Intent rispostaIntent=getIntent();
+        email = rispostaIntent.getStringExtra("email");
+        password = rispostaIntent.getStringExtra("password");
 
-        final TextInputLayout nomeTextInput= (TextInputLayout) findViewById(R.id.nome_text_input_register);
-        final TextInputLayout cognomeTextInput= (TextInputLayout) findViewById(R.id.cognome_text_input_register);
-        final TextInputLayout emailTextInput= (TextInputLayout) findViewById(R.id.email_text_input_register);
-        final TextInputLayout passwordTextInput= (TextInputLayout) findViewById(R.id.password_text_input_register);
-        final TextInputLayout confermaPasswordTextInput= (TextInputLayout) findViewById(R.id.conferma_password_text_input_register);
-        final TextInputLayout dataNascitaTextInput= (TextInputLayout) findViewById(R.id.data_nascita_text_input_register);
-
-
+        final TextInputLayout nomeTextInput = (TextInputLayout) findViewById(R.id.nome_text_input_register);
+        final TextInputLayout cognomeTextInput = (TextInputLayout) findViewById(R.id.cognome_text_input_register);
+        final TextInputLayout confermaPasswordTextInput = (TextInputLayout) findViewById(R.id.conferma_password_text_input_register);
+        final TextInputLayout dataNascitaTextInput = (TextInputLayout) findViewById(R.id.data_nascita_text_input_register);
         final TextInputEditText nome = (TextInputEditText) findViewById(R.id.nome_edit_text_register);
         final TextInputEditText cognome = (TextInputEditText) findViewById(R.id.cognome_edit_text_register);
-        final TextInputEditText email = (TextInputEditText) findViewById(R.id.email_edit_text_register);
-        final TextInputEditText pwd = (TextInputEditText) findViewById(R.id.password_edit_text_register);
         final TextInputEditText conferma_pwd = (TextInputEditText) findViewById(R.id.conferma_password_edit_text_register);
         final TextInputEditText data_nascita = (TextInputEditText) findViewById(R.id.data_nascita_edit_text_register);
-
         final TextView sesso_label = (TextView) findViewById(R.id.sesso_label_register);
         final TextView sesso_message = (TextView) findViewById(R.id.sesso_message_register);
-
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
         final RadioButton femmina = (RadioButton) findViewById(R.id.f_register);
 
@@ -89,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+
                /* JSONObject jObj= risposta.getJSONObject("errors");
                   for(int i = 0; i< jsonArray.length(); i++){
                     JSONObject jsObj = jsonArray.getJSONObject(i);
@@ -118,6 +116,9 @@ public class RegisterActivity extends AppCompatActivity {
                             break;
                     }
                 }*/
+                JSONObject jObj= risposta.getJSONObject("errors");
+                JSONArray jsonArray= jObj.getJSONArray("email");
+                Snackbar.make(findViewById(R.id.register_layout), jsonArray.getString(0), Snackbar.LENGTH_LONG).show();
             }
         };
 
@@ -136,16 +137,16 @@ public class RegisterActivity extends AppCompatActivity {
                 int scelta = sesso.getCheckedRadioButtonId();
                 RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
-                if (validator(errori, nome, cognome, email, pwd, conferma_pwd, sesso)) {
+                if (validator(errori, nome, cognome,conferma_pwd,data_nascita)) {
 
                     try {
                         jsonObject.put("nome", nome.getText());
                         jsonObject.put("cognome", cognome.getText());
-                        jsonObject.put("email", email.getText());
-                        jsonObject.put("password", pwd.getText());
+                        jsonObject.put("email", email);
+                        jsonObject.put("password", password);
                         jsonObject.put("password_confirmation", conferma_pwd.getText());
-                        jsonObject.put("data_nascita", data_nascita.getText());
-                        jsonObject.put("sesso", sesso_scelto.getText().equals("Maschio")?"1":"0");
+                        jsonObject.put("data_nascita", data_nascita.getText().toString());
+                        jsonObject.put("sesso", sesso_scelto.getText().equals("Maschio") ? "1" : "0");
                         //jsonObject.put("foto", encodeFileToBase64Binary(new File("C:\\Users\\ivanc\\AndroidStudioProjects\\Eklesia\\app\\src\\main\\res\\drawable")));
 
                         RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
@@ -157,39 +158,27 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
 
-                    String n = errori.get(R.id.nome_edit_text_register)!= null? errori.get(R.id.nome_edit_text_register):"";
-                    String c = errori.get(R.id.cognome_edit_text_register) != null? errori.get(R.id.cognome_edit_text_register):"";
-                    String e = errori.get(R.id.email_edit_text_register)!= null? errori.get(R.id.email_edit_text_register):"";
-                    String p = errori.get(R.id.password_edit_text_register) != null? errori.get(R.id.password_edit_text_register):"";
-                    String cp = errori.get(R.id.conferma_password_edit_text_register) != null? errori.get(R.id.conferma_password_edit_text_register):"";
-                    String s = errori.get(R.id.sesso_register) != null? errori.get(R.id.sesso_register):"";
+                    String n = errori.get(R.id.nome_edit_text_register) != null ? errori.get(R.id.nome_edit_text_register) : "";
+                    String c = errori.get(R.id.cognome_edit_text_register) != null ? errori.get(R.id.cognome_edit_text_register) : "";
+                    String cp = errori.get(R.id.conferma_password_edit_text_register) != null ? errori.get(R.id.conferma_password_edit_text_register) : "";
+                    String d = errori.get(R.id.data_nascita_edit_text_register) != null ? errori.get(R.id.data_nascita_edit_text_register) : "";
 
-                    if (n.length()> 0){
+                    if (n.length() > 0) {
                         nomeTextInput.setError(n);
                     }
 
-                    if (c.length()> 0){
+                    if (c.length() > 0) {
                         cognomeTextInput.setError(c);
 
                     }
 
-                    if (e.length()> 0){
-                        emailTextInput.setError(e);
-                    }
-
-                    if (p.length()> 0){
-                        passwordTextInput.setError(p);
-                    }
-
-                    if (cp.length()> 0){
+                    if (cp.length() > 0) {
                         confermaPasswordTextInput.setError(cp);
                     }
-
-                    if (s.length() >0){
-                        sesso_message.setText(s);
+                    if (d.length() > 0) {
+                        dataNascitaTextInput.setError(d);
                     }
 
-                    Snackbar.make(findViewById(R.id.register_layout), "Formato credenziali errato", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -202,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(nomeTextInput.getError()!=null)
+                if (nomeTextInput.getError() != null)
                     nomeTextInput.setError("");
             }
 
@@ -220,44 +209,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(cognomeTextInput.getError()!=null)
+                if (cognomeTextInput.getError() != null)
                     cognomeTextInput.setError("");
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(emailTextInput.getError()!=null)
-                    emailTextInput.setError("");
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        pwd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(passwordTextInput.getError()!=null)
-                    passwordTextInput.setError("");
             }
 
             @Override
@@ -274,7 +227,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(confermaPasswordTextInput.getError()!=null)
+                if (confermaPasswordTextInput.getError() != null)
                     confermaPasswordTextInput.setError("");
             }
 
@@ -284,32 +237,28 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        sesso.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @SuppressLint("ResourceAsColor")
+
+        data_nascita.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                sesso_message.setText("");
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (dataNascitaTextInput.getError() != null)
+                    dataNascitaTextInput.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
     }
-    private static String encodeFileToBase64Binary(File file){
-        String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            fileInputStreamReader.read(bytes);
-            encodedfile = Base64.encodeToString(bytes, 1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return encodedfile;
-    }
-
-    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, EditText conferma_pwd, RadioGroup sesso) {
+    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText conferma_pwd, EditText data) {
         map.clear();
         boolean risposta = true;
 
@@ -335,27 +284,6 @@ public class RegisterActivity extends AppCompatActivity {
                 risposta = false;
             }
         }
-
-        if (email.getText().length() == 0) {
-            map.put(email.getId(), "Inserisci la mail");
-            risposta = false;
-        } else {
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
-                map.put(email.getId(), "Formato mail non corretto");
-                risposta = false;
-            }
-        }
-
-        if (pwd.getText().length() == 0) {
-            map.put(pwd.getId(), "Inserisci la password");
-            risposta = false;
-        } else {
-            if (pwd.length() < 6) {
-                map.put(pwd.getId(), "La password deve avere almeno sei caratteri");
-                risposta = false;
-            }
-        }
-
         if (conferma_pwd.getText().length() == 0) {
             map.put(conferma_pwd.getId(), "Inserisci la password");
             risposta = false;
@@ -363,16 +291,15 @@ public class RegisterActivity extends AppCompatActivity {
             if (conferma_pwd.length() < 6) {
                 map.put(conferma_pwd.getId(), "La password deve avere almeno sei caratteri");
                 risposta = false;
-            } else  {
-                if (!pwd.getText().toString().equals(conferma_pwd.getText().toString())){
+            } else {
+                if (!password.equals(conferma_pwd.getText().toString())) {
                     map.put(conferma_pwd.getId(), "Le due password non coincidono");
                     risposta = false;
                 }
             }
         }
-
-        if(sesso.getCheckedRadioButtonId() == -1){
-            map.put(sesso.getId(), "Seleziona il sesso");
+        if (data.getText().length()==0){
+            map.put(data.getId(), "Inserisci la data");
             risposta = false;
         }
 

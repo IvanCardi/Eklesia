@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingVertical="15dp"
-    android:paddingHorizontal="30dp"
     android:orientation="vertical"
-    android:id="@+id/register_layout"
+    android:paddingHorizontal="30dp"
+    android:paddingVertical="15dp"
     tools:context="io.eklesia.eklesia.RegisterActivity">
 
     <LinearLayout
@@ -50,60 +50,24 @@
     </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/email_text_input_register"
+        android:id="@+id/conferma_password_text_input_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/email_edit_text_register"
+            android:id="@+id/conferma_password_edit_text_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/stringa_email"
-            android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+            android:hint="@string/stringa_conferma_password"
+            android:inputType="textPassword"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_text_input_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:errorEnabled="true">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/password_edit_text_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/stringa_password" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/conferma_password_text_input_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:errorEnabled="true">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/conferma_password_edit_text_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/stringa_conferma_password"
-                android:inputType="textPassword"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/data_nascita_text_input_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
@@ -115,58 +79,56 @@
             android:inputType="none"/>
 
     </android.support.design.widget.TextInputLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:orientation="vertical">
 
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:paddingBottom="8dp"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/stringa_sesso"
-        android:id="@+id/sesso_label_register"/>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/sesso_register">
-
-        <RadioButton
-            android:layout_width="wrap_content"
+            android:id="@+id/sesso_label_register"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Maschio"
-            android:id="@+id/m_register"
-            android:checked="true"/>
+            android:paddingBottom="8dp"
+            android:text="@string/stringa_sesso"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"/>
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/sesso_register"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Femmina"
-            android:id="@+id/f_register" />
-    </RadioGroup>
+            android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:paddingBottom="8dp"
-        android:textColor="#f44336"
-        android:id="@+id/sesso_message_register"/>
-    </LinearLayout>
+            <RadioButton
+                android:id="@+id/m_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Maschio"/>
+
+            <RadioButton
+                android:id="@+id/f_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Femmina"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/sesso_message_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textColor="#f44336"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <Button
-        style="?android:attr/borderlessButtonStyle"
-        android:textColor="@color/colorPrimary"
+        android:id="@+id/conferma_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stringa_registrati"
-        android:id="@+id/conferma_register"/>
+        android:text="@string/stringa_conferma"
+        android:textColor="@color/colorPrimary"/>
 
 
 </LinearLayout>
