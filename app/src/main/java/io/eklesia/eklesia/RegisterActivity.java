@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -133,17 +134,38 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showDatePickerDialog(v);
             }
-        });
+        });*/
 
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int scelta = sesso.getCheckedRadioButtonId();
-                RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
+                /*int scelta = sesso.getCheckedRadioButtonId();
+                RadioButton sesso_scelto = (RadioButton) findViewById(scelta);*/
 
-                if (Validator.validation(errori, password, nome, cognome,null, null, conferma_pwd, data_nascita)) {
-                    try {
+                if (Validator.validation(errori, null,null, emailEditText, pwdEditText, conferma_pwd, null)) {
+
+                    CallbackFunction controlloEmail = new CallbackFunction() {
+                        @Override
+                        public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                            Intent i = new Intent(RegisterActivity.this, RegisterActivity2.class);
+                            i.putExtra("email", emailEditText.getText().toString());
+                            i.putExtra("password", pwdEditText.getText().toString());
+                            i.putExtra("conferma_password", conferma_pwd.getText().toString());
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onError(JSONObject risposta) throws JSONException {
+                            Snackbar.make(findViewById(R.id.register_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                        }
+
+
+                    };
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
+                    requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), controlloEmail));
+                    /*try {
                         jsonObject.put("nome", nome.getText());
                         jsonObject.put("cognome", cognome.getText());
                         jsonObject.put("email", email);
@@ -158,36 +180,31 @@ public class RegisterActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
                 } else {
 
-                    String n = errori.get(R.id.nome_edit_text_register) != null ? errori.get(R.id.nome_edit_text_register) : "";
-                    String c = errori.get(R.id.cognome_edit_text_register) != null ? errori.get(R.id.cognome_edit_text_register) : "";
+                    String e = errori.get(R.id.email_edit_text_register) != null ? errori.get(R.id.email_edit_text_register) : "";
+                    String p = errori.get(R.id.password_edit_text_register) != null ? errori.get(R.id.password_edit_text_register) : "";
                     String cp = errori.get(R.id.conferma_password_edit_text_register) != null ? errori.get(R.id.conferma_password_edit_text_register) : "";
-                    String d = errori.get(R.id.data_nascita_edit_text_register) != null ? errori.get(R.id.data_nascita_edit_text_register) : "";
 
-                    if (n.length() > 0) {
-                        nomeTextInput.setError(n);
+                    if (e.length() > 0) {
+                        emailTextInput.setError(e);
                     }
 
-                    if (c.length() > 0) {
-                        cognomeTextInput.setError(c);
+                    if (p.length() > 0) {
+                        passwordTextInput.setError(p);
 
                     }
 
                     if (cp.length() > 0) {
                         confermaPasswordTextInput.setError(cp);
                     }
-                    if (d.length() > 0) {
-                        dataNascitaTextInput.setError(d);
-                    }
-
                 }
             }
         });
 
-        nome.addTextChangedListener(new TextWatcher() {
+        emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -195,8 +212,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (nomeTextInput.getError() != null)
-                    nomeTextInput.setError("");
+                if (emailTextInput.getError() != null)
+                    emailTextInput.setError("");
             }
 
             @Override
@@ -205,7 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        cognome.addTextChangedListener(new TextWatcher() {
+        pwdEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -213,8 +230,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (cognomeTextInput.getError() != null)
-                    cognomeTextInput.setError("");
+                if (passwordTextInput.getError() != null)
+                    passwordTextInput.setError("");
             }
 
             @Override
@@ -240,26 +257,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-
-
-        data_nascita.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (dataNascitaTextInput.getError() != null)
-                    dataNascitaTextInput.setError("");
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });*/
-
     }
     @Override
     public void onBackPressed()

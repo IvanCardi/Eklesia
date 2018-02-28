@@ -27,13 +27,14 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoBarTheme"/>
+            android:theme="@style/NoBarTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/NoBarTheme">
-        </activity>
-        <activity android:name=".DashboardActivity"/>
-        <activity android:name=".ConfigurazionePrimoAccessoActivity"></activity>
+            android:theme="@style/NoBarTheme"></activity>
+        <activity android:name=".DashboardActivity" />
+        <activity android:name=".ConfigurazionePrimoAccessoActivity" />
+        <activity android:name=".RegisterActivity2"
+                  android:theme="@style/NoBarTheme"></activity>
     </application>
 
 </manifest>

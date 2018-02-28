@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                if (Validator.validation(errori, null, null, null, emailEditText,pwdEditText,null,null)) {
+                if (Validator.validation(errori, null, null, emailEditText,pwdEditText,null,null)) {
                     try {
                         jsonObject.put("grant_type", "password");
                         jsonObject.put("client_id", getString(R.string.client_id));
