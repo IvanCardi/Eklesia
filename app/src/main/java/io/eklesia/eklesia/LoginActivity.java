@@ -199,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                 i.putExtra("password", pwdEditText.getText().toString());
                 Pair<View, String> p1 = Pair.create((View)emailTextInput, "emailTextInput");
                 Pair<View, String> p2 = Pair.create(findViewById(R.id.password_text_input_login), "passwordTextInput");
+                //Pair<View, String> p3 = Pair.create(findViewById(R.id.titolo), "titolo");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(LoginActivity.this, p1,p2);
                 startActivity(i, options.toBundle());

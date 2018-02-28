@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         final TextInputLayout passwordTextInput = (TextInputLayout) findViewById(R.id.password_text_input_register);
         emailEditText.setText(email);
         pwdEditText.setText(password);
-        Button conferma = (Button) findViewById(R.id.conferma_register);
+        Button conferma = (Button) findViewById(R.id.continua_register);
 
         final Map<Integer, String> errori = new HashMap<>();
 
