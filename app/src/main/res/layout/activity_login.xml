@@ -8,9 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-
     android:orientation="vertical"
-    android:paddingVertical="15dp"
     tools:context="io.eklesia.eklesia.LoginActivity">
 
 
@@ -23,6 +21,7 @@
         android:tint="@color/colorAccent"/>
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/contenitore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -39,12 +38,15 @@
             android:background="@drawable/rounded_borders_view"
             android:elevation="8dp"
             android:orientation="vertical"
+            android:transitionName="background"
             android:paddingBottom="31dp"
             android:paddingHorizontal="25dp">
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body1"
+                android:id="@+id/titolo"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:text="LOGIN"
@@ -53,6 +55,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/email_text_input_login"
+                android:transitionName="emailTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true">
@@ -70,6 +73,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/password_text_input_login"
+                android:transitionName="passwordTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true"
@@ -107,6 +111,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <Button
             android:id="@+id/accedi_login"
             android:layout_width="wrap_content"
@@ -128,12 +133,10 @@
         android:id="@+id/registrati_login"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:background="@drawable/rounded_borders_button"
-        android:elevation="8dp"
         android:src="@drawable/ic_person_add_black_24dp"
-        android:tint="@android:color/white"
-        android:textColor="@color/colorAccent"/>
+        android:tint="@android:color/white"/>
+
 </RelativeLayout>

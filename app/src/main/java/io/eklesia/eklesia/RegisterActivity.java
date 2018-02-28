@@ -57,19 +57,24 @@ public class RegisterActivity extends AppCompatActivity {
         email = rispostaIntent.getStringExtra("email");
         password = rispostaIntent.getStringExtra("password");
 
-        final TextInputLayout nomeTextInput = (TextInputLayout) findViewById(R.id.nome_text_input_register);
-        final TextInputLayout cognomeTextInput = (TextInputLayout) findViewById(R.id.cognome_text_input_register);
+        /*final TextInputLayout nomeTextInput = (TextInputLayout) findViewById(R.id.nome_text_input_register);
+        final TextInputLayout cognomeTextInput = (TextInputLayout) findViewById(R.id.cognome_text_input_register);*/
         final TextInputLayout confermaPasswordTextInput = (TextInputLayout) findViewById(R.id.conferma_password_text_input_register);
-        final TextInputLayout dataNascitaTextInput = (TextInputLayout) findViewById(R.id.data_nascita_text_input_register);
+        /*final TextInputLayout dataNascitaTextInput = (TextInputLayout) findViewById(R.id.data_nascita_text_input_register);
         final TextInputEditText nome = (TextInputEditText) findViewById(R.id.nome_edit_text_register);
-        final TextInputEditText cognome = (TextInputEditText) findViewById(R.id.cognome_edit_text_register);
+        final TextInputEditText cognome = (TextInputEditText) findViewById(R.id.cognome_edit_text_register);*/
         final TextInputEditText conferma_pwd = (TextInputEditText) findViewById(R.id.conferma_password_edit_text_register);
-        final TextInputEditText data_nascita = (TextInputEditText) findViewById(R.id.data_nascita_edit_text_register);
+        /*final TextInputEditText data_nascita = (TextInputEditText) findViewById(R.id.data_nascita_edit_text_register);
         final TextView sesso_label = (TextView) findViewById(R.id.sesso_label_register);
         final TextView sesso_message = (TextView) findViewById(R.id.sesso_message_register);
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register);
-        final RadioButton femmina = (RadioButton) findViewById(R.id.f_register);
-
+        final RadioButton femmina = (RadioButton) findViewById(R.id.f_register);*/
+        final TextInputEditText emailEditText = (TextInputEditText) findViewById(R.id.email_edit_text_register);
+        final TextInputEditText pwdEditText = (TextInputEditText) findViewById(R.id.password_edit_text_register);
+        final TextInputLayout emailTextInput = (TextInputLayout) findViewById(R.id.email_text_input_register);
+        final TextInputLayout passwordTextInput = (TextInputLayout) findViewById(R.id.password_text_input_register);
+        emailEditText.setText(email);
+        pwdEditText.setText(password);
         Button conferma = (Button) findViewById(R.id.conferma_register);
 
         final Map<Integer, String> errori = new HashMap<>();
@@ -122,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        data_nascita.setOnClickListener(new View.OnClickListener() {
+        /*data_nascita.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -253,12 +258,17 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
 
     }
+    @Override
+    public void onBackPressed()
+    {
+        supportFinishAfterTransition();
+    }
 
-    public void showDatePickerDialog(View v) {
+    /*public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_nascita_edit_text_register));
         newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
+    }*/
 }

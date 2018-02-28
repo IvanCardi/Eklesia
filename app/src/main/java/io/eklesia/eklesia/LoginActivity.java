@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -160,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         registrati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Validator.validation(errori, null, null, null, emailEditText, pwdEditText,null,null)) {
+                /*if (!Validator.validation(errori, null, null, null, emailEditText, pwdEditText,null,null)) {
                     String e = errori.get(R.id.email_edit_text_login) != null ? errori.get(R.id.email_edit_text_login) : "";
                     String p = errori.get(R.id.password_edit_text_login) != null ? errori.get(R.id.password_edit_text_login) : "";
                     if (e.length() > 0) {
@@ -189,8 +192,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                     requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), rispostaControlloEmail));
-                }
+                }*/
+                TextView tv=(TextView)findViewById(R.id.titolo);
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                i.putExtra("email", emailEditText.getText().toString());
+                i.putExtra("password", pwdEditText.getText().toString());
+                Pair<View, String> p1 = Pair.create((View)emailTextInput, "emailTextInput");
+                Pair<View, String> p2 = Pair.create(findViewById(R.id.password_text_input_login), "passwordTextInput");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(LoginActivity.this, p1,p2);
+                startActivity(i, options.toBundle());
             }
         });
     }
+
 }

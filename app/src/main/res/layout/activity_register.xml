@@ -7,48 +7,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="31dp"
+    android:transitionName="background"
     android:paddingHorizontal="30dp"
     android:paddingVertical="15dp"
     tools:context="io.eklesia.eklesia.RegisterActivity">
 
-    <LinearLayout
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingBottom="8dp"
+        android:text="REGISTRATI"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/nome_text_input_register"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/email_text_input_register"
+        android:transitionName="emailTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/email_edit_text_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:errorEnabled="true">
+            android:hint="@string/stringa_email"
+            android:inputType="text"
+            />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/nome_edit_text_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/stringa_nome"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+    </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/cognome_text_input_register"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_text_input_register"
+        android:layout_width="match_parent"
+        android:transitionName="passwordTextInput"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/colorPrimary">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_edit_text_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:errorEnabled="true">
+            android:hint="@string/stringa_password"
+            android:inputType="textPassword"/>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cognome_edit_text_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/stringa_cognome"
-                android:inputType="text"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
+    </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/conferma_password_text_input_register"
         android:layout_width="match_parent"
@@ -64,71 +72,26 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/data_nascita_text_input_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/data_nascita_edit_text_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:hint="@string/stringa_data_nascita"
-            android:inputType="none"/>
-
-    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/sesso_label_register"
-            android:layout_width="match_parent"
+        <Button
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="@string/stringa_sesso"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"/>
+            android:text="@string/stringa_accedi"
+            android:textColor="@color/colorPrimary"/>
 
-        <RadioGroup
-            android:id="@+id/sesso_register"
-            android:layout_width="match_parent"
+        <Button
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/m_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Maschio"/>
-
-            <RadioButton
-                android:id="@+id/f_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Femmina"/>
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/sesso_message_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:textColor="#f44336"
-            android:textSize="12sp"/>
+            android:text="@string/stringa_registrati"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/conferma_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stringa_conferma"
-        android:textColor="@color/colorPrimary"/>
 
 
 </LinearLayout>
