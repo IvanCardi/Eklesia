@@ -91,9 +91,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                boolean risposta = validator(errori, emailEditText, pwdEditText);
 
-                if (risposta) {
+                if (Validator.validation(errori, null, null, null, emailEditText,pwdEditText,null,null)) {
                     try {
                         jsonObject.put("grant_type", "password");
                         jsonObject.put("client_id", getString(R.string.client_id));
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
         registrati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!validator(errori, emailEditText, pwdEditText)) {
+                if (!Validator.validation(errori, null, null, null, emailEditText, pwdEditText,null,null)) {
                     String e = errori.get(R.id.email_edit_text_login) != null ? errori.get(R.id.email_edit_text_login) : "";
                     String p = errori.get(R.id.password_edit_text_login) != null ? errori.get(R.id.password_edit_text_login) : "";
                     if (e.length() > 0) {
@@ -193,27 +192,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    protected boolean validator(Map<Integer, String> map, EditText email, EditText pwd) {
-        map.clear();
-        boolean risposta = true;
-
-        if (email.getText().length() == 0) {
-            map.put(email.getId(), "Inserisci la mail");
-            risposta = false;
-        } else {
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
-                map.put(email.getId(), "Formato mail non corretto");
-                risposta = false;
-            }
-        }
-
-        if (pwd.length() < 6) {
-            map.put(pwd.getId(), "Inserisci una password corretta");
-            risposta = false;
-        }
-
-        return risposta;
     }
 }

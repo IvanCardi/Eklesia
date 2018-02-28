@@ -137,8 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
                 int scelta = sesso.getCheckedRadioButtonId();
                 RadioButton sesso_scelto = (RadioButton) findViewById(scelta);
 
-                if (validator(errori, nome, cognome,conferma_pwd,data_nascita)) {
-
+                if (Validator.validation(errori, password, nome, cognome,null, null, conferma_pwd, data_nascita)) {
                     try {
                         jsonObject.put("nome", nome.getText());
                         jsonObject.put("cognome", cognome.getText());
@@ -256,54 +255,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    protected boolean validator(Map<Integer, String> map, EditText nome, EditText cognome, EditText conferma_pwd, EditText data) {
-        map.clear();
-        boolean risposta = true;
-
-        String name_regex = "^[\\p{L}\\s.'\\-,]+$";
-        Pattern pattern = Pattern.compile(name_regex, Pattern.CASE_INSENSITIVE);
-
-        if (nome.getText().length() == 0) {
-            map.put(nome.getId(), "Inserisci il nome");
-            risposta = false;
-        } else {
-            if (!pattern.matcher(nome.getText()).find()) {
-                map.put(nome.getId(), "Formato nome non corretto");
-                risposta = false;
-            }
-        }
-
-        if (cognome.getText().length() == 0) {
-            map.put(cognome.getId(), "Inserisci il cognome");
-            risposta = false;
-        } else {
-            if (!pattern.matcher(cognome.getText()).find()) {
-                map.put(cognome.getId(), "Formato cognome non corretto");
-                risposta = false;
-            }
-        }
-        if (conferma_pwd.getText().length() == 0) {
-            map.put(conferma_pwd.getId(), "Inserisci la password");
-            risposta = false;
-        } else {
-            if (conferma_pwd.length() < 6) {
-                map.put(conferma_pwd.getId(), "La password deve avere almeno sei caratteri");
-                risposta = false;
-            } else {
-                if (!password.equals(conferma_pwd.getText().toString())) {
-                    map.put(conferma_pwd.getId(), "Le due password non coincidono");
-                    risposta = false;
-                }
-            }
-        }
-        if (data.getText().length()==0){
-            map.put(data.getId(), "Inserisci la data");
-            risposta = false;
-        }
-
-        return risposta;
     }
 
     public void showDatePickerDialog(View v) {
