@@ -46,7 +46,7 @@
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:id="@+id/titolo"
                 android:layout_width="match_parent"
-
+                android:transitionName="titolo"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:text="LOGIN"
