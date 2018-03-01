@@ -114,14 +114,13 @@
 
         <Button
             android:id="@+id/accedi_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="232dp"
+            android:layout_height="48dp"
+            android:transitionName="pulsante"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/rounded_borders_button"
             android:elevation="8dp"
-            android:paddingHorizontal="96dp"
-            android:paddingVertical="16dp"
             android:shadowColor="@color/grey"
             android:text="LOGIN"
             android:textColor="@color/colorAccent"

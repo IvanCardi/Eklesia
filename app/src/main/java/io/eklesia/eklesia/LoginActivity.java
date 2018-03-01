@@ -1,17 +1,24 @@
 package io.eklesia.eklesia;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         final TextInputLayout passwordTextInput = (TextInputLayout) findViewById(R.id.password_text_input_login);
         final ImageButton registrati = (ImageButton) findViewById(R.id.registrati_login);
         Button accedi = (Button) findViewById(R.id.accedi_login);
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.excludeTarget(android.R.id.statusBarBackground, true);
+            explode.excludeTarget(android.R.id.navigationBarBackground, true);
+
+            getWindow().setEnterTransition(explode);
+            getWindow().setExitTransition(explode);
+        }*/
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -194,17 +210,20 @@ public class LoginActivity extends AppCompatActivity {
                     requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), rispostaControlloEmail));
                 }*/
                 TextView tv=(TextView)findViewById(R.id.titolo);
+                //((Button) findViewById(R.id.accedi_login)).setText("");
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 i.putExtra("email", emailEditText.getText().toString());
                 i.putExtra("password", pwdEditText.getText().toString());
                 Pair<View, String> p1 = Pair.create((View)emailTextInput, "emailTextInput");
                 Pair<View, String> p2 = Pair.create(findViewById(R.id.password_text_input_login), "passwordTextInput");
+                Pair<View, String> p3 = Pair.create(findViewById(R.id.accedi_login), "pulsante");
                 //Pair<View, String> p3 = Pair.create(findViewById(R.id.titolo), "titolo");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(LoginActivity.this, p1,p2);
+                        makeSceneTransitionAnimation(LoginActivity.this, p1,p2,p3);
                 startActivity(i, options.toBundle());
             }
         });
     }
+
 
 }

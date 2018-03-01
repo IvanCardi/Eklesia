@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -13,6 +14,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -77,6 +80,15 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText.setText(email);
         pwdEditText.setText(password);
         Button conferma = (Button) findViewById(R.id.continua_register);
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade explode = new Fade();
+            explode.excludeTarget(android.R.id.statusBarBackground, true);
+            explode.excludeTarget(android.R.id.navigationBarBackground, true);
+
+            getWindow().setEnterTransition(explode);
+            getWindow().setExitTransition(explode);
+        }*/
 
         final Map<Integer, String> errori = new HashMap<>();
 
@@ -268,4 +280,7 @@ public class RegisterActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_nascita_edit_text_register));
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }*/
+
+
+
 }

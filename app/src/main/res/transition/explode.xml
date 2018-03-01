@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
-    <transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-        <explode />
-    </transitionSet>
-</transitionManager>
+<explode xmlns:android="http://schemas.android.com/apk/res/android">
+    <targets>
+        <target android:excludeId="@android:id/statusBarBackground"/>
+        <target android:excludeId="@android:id/navigationBarBackground"/>
+    </targets>
+</explode>
