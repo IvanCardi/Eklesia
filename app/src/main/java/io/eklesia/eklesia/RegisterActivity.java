@@ -1,33 +1,15 @@
 package io.eklesia.eklesia;
 
-import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.Explode;
-import android.transition.Fade;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -36,17 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -165,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                             i.putExtra("password", pwdEditText.getText().toString());
                             i.putExtra("conferma_password", conferma_pwd.getText().toString());
                             startActivity(i);
+                            overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                         }
 
                         @Override

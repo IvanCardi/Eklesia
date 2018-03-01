@@ -229,6 +229,14 @@ public class RegisterActivity2 extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(RegisterActivity2.this, RegisterActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+    }
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_edit_text_register2));
         newFragment.show(getSupportFragmentManager(), "datePicker");
