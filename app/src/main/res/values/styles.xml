@@ -16,4 +16,13 @@
         <item name="android:buttonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
         <item  name="android:imageButtonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
     </style>
+
+    <style name='LightBarTheme' parent="NoBarTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:buttonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
+        <item  name="android:imageButtonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
+    </style>
+
 </resources>

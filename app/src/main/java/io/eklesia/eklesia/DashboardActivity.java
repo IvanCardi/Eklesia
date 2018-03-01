@@ -51,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.dashboard_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.main_content), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
             }
         };
 
