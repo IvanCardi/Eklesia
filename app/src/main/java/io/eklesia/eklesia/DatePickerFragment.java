@@ -19,11 +19,11 @@ import java.util.Locale;
 
 @SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    TextInputEditText data;
+    EditText data;
 
 
     @SuppressLint("ValidFragment")
-    public DatePickerFragment(TextInputEditText data) {
+    public DatePickerFragment(EditText data) {
         this.data = data;
     }
 

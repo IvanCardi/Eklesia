@@ -1,14 +1,21 @@
 package io.eklesia.eklesia;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.android.volley.RequestQueue;
@@ -55,14 +62,10 @@ public class RegisterActivity extends AppCompatActivity {
         pwdEditText.setText(password);
         Button conferma = (Button) findViewById(R.id.continua_register);
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Fade explode = new Fade();
-            explode.excludeTarget(android.R.id.statusBarBackground, true);
-            explode.excludeTarget(android.R.id.navigationBarBackground, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            getWindow().setEnterTransition(explode);
-            getWindow().setExitTransition(explode);
-        }*/
+            getWindow().setEnterTransition(new Fade());
+        }
 
         final Map<Integer, String> errori = new HashMap<>();
 
@@ -114,20 +117,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        /*data_nascita.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(v);
-            }
-        });*/
 
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*int scelta = sesso.getCheckedRadioButtonId();
-                RadioButton sesso_scelto = (RadioButton) findViewById(scelta);*/
 
                 if (Validator.validation(errori, null,null, emailEditText, pwdEditText, conferma_pwd, null)) {
 
@@ -138,6 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
                             i.putExtra("email", emailEditText.getText().toString());
                             i.putExtra("password", pwdEditText.getText().toString());
                             i.putExtra("conferma_password", conferma_pwd.getText().toString());
+
                             startActivity(i);
                             overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                         }
@@ -248,6 +242,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
+        //finish();
         supportFinishAfterTransition();
     }
 

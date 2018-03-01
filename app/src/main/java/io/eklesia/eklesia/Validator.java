@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Validator {
     static boolean risposta;
 
-    public static boolean validation(Map<Integer, String> map, TextInputEditText nome, TextInputEditText cognome, TextInputEditText email, TextInputEditText pwd, TextInputEditText conferma_pwd, TextInputEditText data) {
+    public static boolean validation(Map<Integer, String> map, EditText nome, EditText cognome, EditText email, EditText pwd, EditText conferma_pwd, EditText data) {
 
         map.clear();
         risposta = true;

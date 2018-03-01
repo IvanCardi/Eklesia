@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Explode;
 import android.transition.Fade;
+import android.transition.Slide;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,6 +60,11 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setEnterTransition(explode);
             getWindow().setExitTransition(explode);
         }*/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            //getWindow().setEnterTransition(new Fade());
+            getWindow().setExitTransition(new Explode());
+        }
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 

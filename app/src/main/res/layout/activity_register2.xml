@@ -7,7 +7,6 @@
     android:id="@+id/register2_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="31dp"
     android:paddingHorizontal="30dp"
     android:paddingVertical="15dp"
@@ -24,69 +23,76 @@
             style="@style/TextAppearance.AppCompat.Display3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:padding="8dp"
             android:text=":)"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:transitionName="titolo" />
+            android:textStyle="bold"/>
 
         <TextView
             style="@style/TextAppearance.AppCompat.Display4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Manca poco..."
+            android:paddingBottom="16dp"
+            android:text="Ci siamo quasi..."
             android:textAlignment="center"
-            android:textSize="32dp"
-            android:transitionName="titolo" />
+            android:textSize="32dp"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/nome_text_input_register2"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/nome_edit_text_register2"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nome_text_input_register2"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/nome_edit_text_register2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stringa_nome"
+                    android:inputType="text"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cognome_text_input_register2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/stringa_nome"
-                android:inputType="text" />
+                app:errorEnabled="true"
+                android:layout_weight="1"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimary">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/cognome_edit_text_register2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stringa_cognome"
+                    android:inputType="text"/>
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/cognome_text_input_register2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimary">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cognome_edit_text_register2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/stringa_cognome"
-                android:inputType="text" />
-
-        </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/data_text_input_register2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/stringa_data_nascita"
             app:errorEnabled="true">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/data_edit_text_register2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:hint="@string/stringa_data_nascita"
-                android:inputType="text" />
+
+                android:inputType="text"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -101,33 +107,33 @@
                 android:paddingBottom="8dp"
                 android:text="@string/stringa_sesso"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <RadioGroup
                 android:id="@+id/sesso_register2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:checkedButton="@id/m">
+                android:checkedButton="@id/m"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/m"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Maschio" />
+                    android:text="Maschio"/>
 
                 <RadioButton
                     android:id="@+id/f"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Femmina" />
+                    android:text="Femmina"/>
             </RadioGroup>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </LinearLayout>
 
 
@@ -141,28 +147,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringa_accedi"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"/>
 
             <Button
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringa_registrati"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 
     <Button
         android:id="@+id/conferma_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="232dp"
+        android:layout_height="48dp"
         android:layout_below="@id/register_panel_2"
         android:layout_centerHorizontal="true"
         android:background="@drawable/rounded_borders_button"
-        android:paddingHorizontal="96dp"
-        android:paddingVertical="16dp"
         android:text="@string/stringa_conferma"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"/>
 
 
 </RelativeLayout>

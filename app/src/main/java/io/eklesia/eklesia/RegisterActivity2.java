@@ -3,6 +3,7 @@ package io.eklesia.eklesia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -11,8 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -35,13 +40,12 @@ public class RegisterActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
-
         final TextInputLayout nomeTextInput = (TextInputLayout) findViewById(R.id.nome_text_input_register2);
         final TextInputLayout cognomeTextInput = (TextInputLayout) findViewById(R.id.cognome_text_input_register2);
         final TextInputLayout dataNascitaTextInput = (TextInputLayout) findViewById(R.id.data_text_input_register2);
-        final TextInputEditText nome = (TextInputEditText) findViewById(R.id.nome_edit_text_register2);
-        final TextInputEditText cognome = (TextInputEditText) findViewById(R.id.cognome_edit_text_register2);
-        final TextInputEditText data_nascita = (TextInputEditText) findViewById(R.id.data_edit_text_register2);
+        final EditText nome = (EditText) findViewById(R.id.nome_edit_text_register2);
+        final EditText cognome = (EditText) findViewById(R.id.cognome_edit_text_register2);
+        final EditText data_nascita = (EditText) findViewById(R.id.data_edit_text_register2);
         final RadioGroup sesso = (RadioGroup) findViewById(R.id.sesso_register2);
         Button conferma = (Button) findViewById(R.id.conferma_register);
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -75,7 +79,8 @@ public class RegisterActivity2 extends AppCompatActivity {
                             public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                                 Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
                                 Intent i = new Intent(RegisterActivity2.this, DashboardActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.addCategory(Intent.CATEGORY_HOME);
                                 startActivity(i);
                                 finish();
                             }
@@ -231,14 +236,12 @@ public class RegisterActivity2 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(RegisterActivity2.this, RegisterActivity.class);
-        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_edit_text_register2));
+        DialogFragment newFragment = new DatePickerFragment((EditText) findViewById(R.id.data_edit_text_register2));
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
