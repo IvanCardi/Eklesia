@@ -64,8 +64,8 @@ public class RegisterActivity2 extends AppCompatActivity {
                     return true;
                 }
             });
-            getWindow().setAllowEnterTransitionOverlap(false);
-            getWindow().setAllowReturnTransitionOverlap(false);
+            /*getWindow().setAllowEnterTransitionOverlap(false);
+            getWindow().setAllowReturnTransitionOverlap(false);*/
             getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
         }
         final Map<Integer, String> errori = new HashMap<>();

@@ -39,16 +39,16 @@
             android:textSize="32dp"/>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
-                android:transitionGroup="true"
                 android:id="@+id/nome_text_input_register2"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:transitionGroup="true"
                 app:errorEnabled="true">
 
                 <EditText
@@ -62,12 +62,12 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:transitionGroup="true"
                 android:id="@+id/cognome_text_input_register2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
                 android:layout_weight="1"
+                android:transitionGroup="true"
+                app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/colorPrimary">
 
@@ -82,11 +82,11 @@
         </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:transitionGroup="true"
             android:id="@+id/data_text_input_register2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/stringa_data_nascita"
+            android:transitionGroup="true"
             app:errorEnabled="true">
 
             <EditText
