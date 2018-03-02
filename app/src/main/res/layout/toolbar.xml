@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@android:color/transparent"
-    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    android:paddingRight="16dp"
+
+    android:fitsSystemWindows="true"
+    android:padding="16dp"
     app:titleTextColor="#FFFFFF">
 
     <RelativeLayout
@@ -40,3 +41,4 @@
     </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>
+    <!--app:layout_scrollFlags="scroll|enterAlways"-->
