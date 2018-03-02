@@ -46,7 +46,7 @@ public class AuthActivity extends AppCompatActivity {
             CallbackFunction RispostaConAccessToken= new CallbackFunction() {
                 @Override
                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                    Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
+                    Utente.setAll(risposta.getJSONObject("utente"));
                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
