@@ -4,7 +4,9 @@ package io.eklesia.eklesia;
  * Created by ivanc on 02/03/2018.
  */
 
+import android.content.Context;
 import android.graphics.Path;
+import android.net.sip.SipSession;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class OpzioniAdapter extends RecyclerView.Adapter<OpzioniAdapter.ViewHolder> {
@@ -29,18 +32,26 @@ public class OpzioniAdapter extends RecyclerView.Adapter<OpzioniAdapter.ViewHold
             this.opzione = v.findViewById(R.id.testo_riga);
         }
 
+
+
     }
 
     public OpzioniAdapter(ElementiRiga[] myDataset) {
         mDataset = myDataset;
     }
 
-    public OpzioniAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                        int viewType) {
+    public OpzioniAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        LinearLayout l = (LinearLayout) LayoutInflater.from(parent.getContext())
+        final LinearLayout l = (LinearLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.riga_opzione, parent, false);
         ViewHolder vh = new ViewHolder(l);
+
+        l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(l.getContext(), "Ok", Toast.LENGTH_LONG).show();
+            }
+        });
         return vh;
     }
 
@@ -57,6 +68,8 @@ public class OpzioniAdapter extends RecyclerView.Adapter<OpzioniAdapter.ViewHold
     public int getItemCount() {
         return mDataset.length;
     }
+
+
 
 
 
