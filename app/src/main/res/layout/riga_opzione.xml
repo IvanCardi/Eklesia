@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:orientation="horizontal"
+    android:backgroundTint="@color/colorAccent"
     android:clickable="true"
     android:padding="16dp"
+    android:background="?attr/selectableItemBackground"
     android:id="@+id/riga_layout">
 
     <ImageView

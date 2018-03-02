@@ -21,6 +21,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,7 +36,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -117,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                if (Validator.validation(errori, null, null, emailEditText,pwdEditText,null,null)) {
+                if (Validator.validation(errori, null, null, emailEditText, pwdEditText, null, null)) {
                     try {
                         jsonObject.put("grant_type", "password");
                         jsonObject.put("client_id", getString(R.string.client_id));
@@ -215,17 +218,28 @@ public class LoginActivity extends AppCompatActivity {
                     RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                     requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), rispostaControlloEmail));
                 }*/
-                TextView tv=(TextView)findViewById(R.id.titolo);
-                //((Button) findViewById(R.id.accedi_login)).setText("");
+                TextView tv = (TextView) findViewById(R.id.titolo);
+                Pair<View, String> p1, p2, p3, p4, p5;
+                p4 = null;
+                p5 = null;
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 i.putExtra("email", emailEditText.getText().toString());
                 i.putExtra("password", pwdEditText.getText().toString());
-                Pair<View, String> p1 = Pair.create((View)emailTextInput, "emailTextInput");
-                Pair<View, String> p2 = Pair.create(findViewById(R.id.password_text_input_login), "passwordTextInput");
-                Pair<View, String> p3 = Pair.create(findViewById(R.id.accedi_login), "pulsante");
+                p1 = Pair.create((View) emailTextInput, "emailTextInput");
+                p2 = Pair.create(findViewById(R.id.password_text_input_login), "passwordTextInput");
+                p3 = Pair.create(findViewById(R.id.accedi_login), "pulsante");
+                View statusBar = findViewById(android.R.id.statusBarBackground);
+                View navigationBar = findViewById(android.R.id.navigationBarBackground);
+
+                if (statusBar != null) {
+                    p4 = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME);
+                }
+                if (navigationBar != null) {
+                    p5 = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+                }
                 //Pair<View, String> p3 = Pair.create(findViewById(R.id.titolo), "titolo");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(LoginActivity.this, p1,p2,p3);
+                        makeSceneTransitionAnimation(LoginActivity.this, p1, p2, p3, p4, p5);
                 startActivity(i, options.toBundle());
             }
         });

@@ -16,6 +16,7 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -50,7 +51,23 @@ public class RegisterActivity2 extends AppCompatActivity {
         Button conferma = (Button) findViewById(R.id.conferma_register);
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
 
+            final View decor = getWindow().getDecorView();
+            decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    decor.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        startPostponedEnterTransition();
+                    return true;
+                }
+            });
+            getWindow().setAllowEnterTransitionOverlap(false);
+            getWindow().setAllowReturnTransitionOverlap(false);
+            getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        }
         final Map<Integer, String> errori = new HashMap<>();
 
         final JSONObject jsonObjectReg = new JSONObject();
@@ -236,8 +253,8 @@ public class RegisterActivity2 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        supportFinishAfterTransition();
+        //overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     }
 
     public void showDatePickerDialog(View v) {

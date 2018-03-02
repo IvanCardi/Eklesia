@@ -5,13 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,9 +42,34 @@ public class ProfiloActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profilo);
+
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_profilo);
         setSupportActionBar(myToolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+
+            final View decor = getWindow().getDecorView();
+            decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    decor.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    startPostponedEnterTransition();
+                    return true;
+                }
+            });
+            Transition slide = new Slide(Gravity.BOTTOM);
+            getWindow().setEnterTransition(new Slide());
+        }
+        ImageView pulsanteChiudi=(ImageView) findViewById(R.id.chiudi_activity_profilo_image_view);
+        pulsanteChiudi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supportFinishAfterTransition();
+            }
+        });
         ElementiRiga [] elementi = new ElementiRiga[6];
         elementi[0] = new ElementiRiga(R.drawable.ic_account_circle_black_24dp, "Profilo");
         elementi[1] = new ElementiRiga(R.drawable.ic_saved_content, "Elementi salvati");
@@ -55,38 +86,11 @@ public class ProfiloActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-
-        final CallbackFunction cbf_logout = new CallbackFunction() {
-            @Override
-            public void onResponse(JSONObject risposta) throws JSONException {
-                SharedPreferences.Editor editor_connection = sp_connection.edit();
-                editor_connection.clear();
-                editor_connection.commit();
-                Intent i = new Intent(ProfiloActivity.this, LoginActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                finish();
-            }
-
-            @Override
-            public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.main_content), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
-            }
-        };
-
-
-
-
-        /*logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Map<String,String> map= new HashMap<>();
-                map.put("a_token",sp_connection.getString("a_token",""));
-
-                RequestQueue requestQueue = Volley.newRequestQueue(ProfiloActivity.this);
-                requestQueue.add(Connessione.sendPost(map,"api/utente/logout",null, cbf_logout));
-            }
-        });*/
+    }
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        //supportFinishAfterTransition();
     }
 }

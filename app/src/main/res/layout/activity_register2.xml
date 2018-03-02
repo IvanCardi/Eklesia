@@ -44,6 +44,7 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
+                android:transitionGroup="true"
                 android:id="@+id/nome_text_input_register2"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -61,6 +62,7 @@
 
 
             <android.support.design.widget.TextInputLayout
+                android:transitionGroup="true"
                 android:id="@+id/cognome_text_input_register2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,6 +82,7 @@
         </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:transitionGroup="true"
             android:id="@+id/data_text_input_register2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

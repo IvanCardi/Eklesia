@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
 
@@ -38,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Intent rispostaIntent=getIntent();
+        Intent rispostaIntent = getIntent();
         email = rispostaIntent.getStringExtra("email");
         password = rispostaIntent.getStringExtra("password");
 
@@ -63,8 +65,23 @@ public class RegisterActivity extends AppCompatActivity {
         Button conferma = (Button) findViewById(R.id.continua_register);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
 
+            final View decor = getWindow().getDecorView();
+            decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    decor.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        startPostponedEnterTransition();
+                    return true;
+                }
+            });
+            getWindow().setAllowEnterTransitionOverlap(false);
+            getWindow().setAllowReturnTransitionOverlap(false);
+            Slide slide=new Slide(Gravity.LEFT);
             getWindow().setEnterTransition(new Fade());
+            getWindow().setExitTransition(new Slide(Gravity.LEFT));
         }
 
         final Map<Integer, String> errori = new HashMap<>();
@@ -111,8 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
                             break;
                     }
                 }*/
-                JSONObject jObj= risposta.getJSONObject("errors");
-                JSONArray jsonArray= jObj.getJSONArray("email");
+                JSONObject jObj = risposta.getJSONObject("errors");
+                JSONArray jsonArray = jObj.getJSONArray("email");
                 Snackbar.make(findViewById(R.id.register_layout), jsonArray.getString(0), Snackbar.LENGTH_LONG).show();
             }
         };
@@ -122,18 +139,34 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Validator.validation(errori, null,null, emailEditText, pwdEditText, conferma_pwd, null)) {
+                if (Validator.validation(errori, null, null, emailEditText, pwdEditText, conferma_pwd, null)) {
 
                     CallbackFunction controlloEmail = new CallbackFunction() {
                         @Override
                         public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                            Pair<View, String> p4, p5;
+                            p4 = null;
+                            p5 = null;
+                            View statusBar = findViewById(android.R.id.statusBarBackground);
+                            View navigationBar = findViewById(android.R.id.navigationBarBackground);
+
+                            if (statusBar != null) {
+                                p4 = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME);
+                            }
+                            if (navigationBar != null) {
+                                p5 = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+                            }
+
+                            ActivityOptionsCompat options = ActivityOptionsCompat.
+                                    makeSceneTransitionAnimation(RegisterActivity.this, p4, p5);
+
                             Intent i = new Intent(RegisterActivity.this, RegisterActivity2.class);
                             i.putExtra("email", emailEditText.getText().toString());
                             i.putExtra("password", pwdEditText.getText().toString());
                             i.putExtra("conferma_password", conferma_pwd.getText().toString());
 
-                            startActivity(i);
-                            overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                            startActivity(i,options.toBundle());
+                            //overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                         }
 
                         @Override
@@ -239,9 +272,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         //finish();
         supportFinishAfterTransition();
     }
@@ -250,7 +283,6 @@ public class RegisterActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment((TextInputEditText) findViewById(R.id.data_nascita_edit_text_register));
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }*/
-
 
 
 }
