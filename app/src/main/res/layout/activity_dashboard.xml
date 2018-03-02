@@ -28,25 +28,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/logout_dashboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Logout"
-                    android:visibility="gone"/>
-
                 <ImageView
+                    android:id="@+id/chiesa_appartenenza_dashboard"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentLeft="true"
+                    android:clickable="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_home_black_24dp"
                     android:tint="@color/colorPrimary"/>
 
                 <ImageView
+                    android:id="@+id/profilo_dashboard"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
+                    android:clickable="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_account_circle_black_24dp"
                     android:tint="@color/colorPrimary"/>
@@ -63,13 +60,11 @@
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Display4"
+                android:id="@+id/saluto_dashboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Buonasera, Ivan"
-
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorPrimary"
-
                 android:textSize="32dp"
                 android:textStyle="bold"
                 android:transitionName="titolo"/>
@@ -92,6 +87,7 @@
             android:clipToPadding="false"
             android:background="@color/colorAccent">
                 <EditText
+                    android:id="@+id/ricerca_dashboard"
                     android:hint="Fai una ricerca"
                     android:background="@null"
                     android:layout_width="match_parent"

@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -31,40 +34,18 @@ public class DashboardActivity extends AppCompatActivity {
 
         final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        Button logout = (Button) findViewById(R.id.logout_dashboard);
+        TextView saluto = (TextView) findViewById(R.id.saluto_dashboard);
+        ImageView profilo = (ImageView) findViewById(R.id.profilo_dashboard);
+        ImageView chiesa = (ImageView) findViewById(R.id.chiesa_appartenenza_dashboard);
 
 
+        saluto.setText("Ciao, " + Utente.getNome() + "!");
 
-
-
-        final CallbackFunction cbf_logout = new CallbackFunction() {
-            @Override
-            public void onResponse(JSONObject risposta) throws JSONException {
-                SharedPreferences.Editor editor_connection = sp_connection.edit();
-                editor_connection.clear();
-                editor_connection.commit();
-                Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                finish();
-            }
-
-            @Override
-            public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.main_content), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
-            }
-        };
-
-
-        logout.setOnClickListener(new View.OnClickListener() {
+        profilo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Map<String,String> map= new HashMap<>();
-                map.put("a_token",sp_connection.getString("a_token",""));
-
-                RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
-                requestQueue.add(Connessione.sendPost(map,"api/utente/logout",null, cbf_logout));
+                Intent i = new Intent(DashboardActivity.this, ProfiloActivity.class);
+                startActivity(i);
             }
         });
     }

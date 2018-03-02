@@ -38,6 +38,7 @@ public class Utente {
 
         SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd");
         Utente.data_nascita = df.parse(utente.getString("data_nascita"));
+
         if(utente.isNull("id_chiesa"))
             Utente.setChiesaAppartenenza(null);
         else
@@ -49,17 +50,11 @@ public class Utente {
             for (int i=0;i<len;i++){
                 Utente.eventi_seguiti.add(eventi_seguiti_j.getJSONObject(i).getInt("id"));
             }
-        }else{
-            int b=1+2;
-            int c;
-            c=b+4;
-
         }
 
         chiese_seguite_j = utente.getJSONArray("chiese_seguite");
         if (chiese_seguite_j.length()>0) {
             int len = chiese_seguite_j.length();
-
             for (int i=0;i<len;i++){
                 Utente.chiese_seguite.add(chiese_seguite_j.getJSONObject(i).getInt("id"));
             }
