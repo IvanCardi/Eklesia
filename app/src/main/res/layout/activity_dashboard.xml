@@ -33,8 +33,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentLeft="true"
-                    android:clickable="true"
                     android:layout_centerVertical="true"
+                    android:clickable="true"
                     android:src="@drawable/ic_home_black_24dp"
                     android:tint="@color/colorPrimary"/>
 
@@ -43,8 +43,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:clickable="true"
                     android:layout_centerVertical="true"
+                    android:clickable="true"
                     android:src="@drawable/ic_account_circle_black_24dp"
                     android:tint="@color/colorPrimary"/>
             </RelativeLayout>
@@ -54,13 +54,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingVertical="16dp"
             android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp"
             app:layout_scrollFlags="scroll">
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Display4"
                 android:id="@+id/saluto_dashboard"
+                style="@style/TextAppearance.AppCompat.Display4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
@@ -79,20 +79,22 @@
                 android:textSize="16dp"
                 android:transitionName="titolo"/>
         </LinearLayout>
+
         <LinearLayout
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
             android:clipToPadding="false"
-            android:background="@color/colorAccent">
-                <EditText
-                    android:id="@+id/ricerca_dashboard"
-                    android:hint="Fai una ricerca"
-                    android:background="@null"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_scrollFlags="snap"/>
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp"
+            app:layout_scrollFlags="snap">
+
+            <EditText
+                android:id="@+id/ricerca_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Fai una ricerca"/>
 
         </LinearLayout>
 

@@ -46,7 +46,13 @@ public class DashboardActivity extends AppCompatActivity {
         ImageView profilo = (ImageView) findViewById(R.id.profilo_dashboard);
         ImageView chiesa = (ImageView) findViewById(R.id.chiesa_appartenenza_dashboard);
 
-
+        chiesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this, ChiesaActivity.class);
+                startActivity(i);
+            }
+        });
         saluto.setText("Ciao, " + Utente.getNome() + "!");
 
         profilo.setOnClickListener(new View.OnClickListener() {
