@@ -54,8 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="16dp"
+            android:padding="32dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             app:layout_scrollFlags="scroll">
 
             <TextView
@@ -85,8 +86,9 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:clipToPadding="false"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="16dp"
+            android:padding="32dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             app:layout_scrollFlags="snap">
 
             <EditText

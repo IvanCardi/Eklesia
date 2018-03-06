@@ -40,7 +40,8 @@
             android:orientation="vertical"
             android:transitionName="background"
             android:paddingBottom="31dp"
-            android:paddingHorizontal="25dp">
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body1"

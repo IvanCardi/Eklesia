@@ -40,8 +40,8 @@ public class OpzioniAdapter extends RecyclerView.Adapter<OpzioniAdapter.ViewHold
 
         public ViewHolder(View v) {
             super(v);
-            this.icona = v.findViewById(R.id.icona_riga);
-            this.opzione = v.findViewById(R.id.testo_riga);
+            this.icona = (ImageView) v.findViewById(R.id.icona_riga);
+            this.opzione =(TextView) v.findViewById(R.id.testo_riga);
         }
 
 
