@@ -94,7 +94,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                         CallbackFunction rispostaGetInformazioni = new CallbackFunction() {
                             @Override
                             public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                                Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
+                                Utente.setAll(risposta.getJSONObject("utente"));
                                 Intent i = new Intent(RegisterActivity2.this, DashboardActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 i.addCategory(Intent.CATEGORY_HOME);
