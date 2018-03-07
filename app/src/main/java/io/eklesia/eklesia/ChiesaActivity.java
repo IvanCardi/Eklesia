@@ -21,6 +21,7 @@ public class ChiesaActivity extends AppCompatActivity implements AppBarLayout.On
     private ViewPager viewPager;
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
     private boolean mIsAvatarShown = true;
+    private Toolbar toolbar;
 
     private ImageView mProfileImage;
     private int mMaxScrollSize;
@@ -31,10 +32,13 @@ public class ChiesaActivity extends AppCompatActivity implements AppBarLayout.On
         setContentView(R.layout.activity_chiesa);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
+        toolbar=(Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
         AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
         mProfileImage = (ImageView) findViewById(R.id.materialup_profile_image);
         appbarLayout.addOnOffsetChangedListener(this);
