@@ -35,9 +35,15 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     private LinearLayout contenitoreRicerca;
     private int mMaxScrollSize;
     private boolean isShow=true;
+    private int marginHorizontalAbs;
+    private int marginVerticalAbs;
     private int marginHorizontal;
     private int marginVertical;
     private float distanzaPercorrere;
+    private float oldDistanzaPercorrere;
+    private float percHorizontal;
+    private float percVertical;
+    int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +67,16 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
         contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
-        marginHorizontal=(int)(getApplicationContext().getResources().getDisplayMetrics().density*24);
-        marginVertical=(int)(getApplicationContext().getResources().getDisplayMetrics().density*12);
+        if (i == 0) {
+            marginHorizontalAbs = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
+            marginVerticalAbs = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
+            marginHorizontal = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
+            marginVertical = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
+            i++;
+        } else {
+            marginHorizontal = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
+            marginVertical = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
+        }
 
         saluto.setText("Ciao, " + Utente.getNome() + "!");
 
@@ -142,27 +156,34 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        Log.w("scrollzize",new Integer(mMaxScrollSize).toString());
+        if (i == 0) {
+            mMaxScrollSize = appBarLayout.getTotalScrollRange();
+            percHorizontal = (float) marginHorizontalAbs / (mMaxScrollSize * 0.2F);
+            percVertical = (float) marginVerticalAbs / (mMaxScrollSize *0.2F);
+            oldDistanzaPercorrere = mMaxScrollSize * 0.2F;
+        } else {
+
+       // Log.w("scrollzize",new Integer(mMaxScrollSize).toString());
         int total=appBarLayout.getTotalScrollRange();
         float percentuale=(float)-i/(float)total*100;
-        if(percentuale>50F)
-        {
-            distanzaPercorrere=total+i;
-
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)contenitoreRicerca.getLayoutParams();
-            /*if(distanzaPercorrere!=0){
-                marginHorizontal-=(marginHorizontal*((float)marginHorizontal/distanzaPercorrere));
-                marginVertical-=(marginVertical*((float)marginVertical/distanzaPercorrere));
+        if(percentuale>80F) {
+            distanzaPercorrere = total + i;
+            float distanza = oldDistanzaPercorrere - distanzaPercorrere;
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) contenitoreRicerca.getLayoutParams();
+            if (distanzaPercorrere != 0) {
+                marginHorizontal -= distanza * percHorizontal;
+                marginVertical -= distanza * percVertical;
+            } else {
+                marginHorizontal = 0;
+                marginVertical = 0;
             }
-            else{
-                marginHorizontal=0;
-                marginVertical=0;
-            }*/
 
 
-            layoutParams.setMargins(marginHorizontal--, marginVertical--, marginHorizontal--, marginVertical--);
+            layoutParams.setMargins(marginHorizontal, marginVertical, marginHorizontal, marginVertical);
             contenitoreRicerca.setLayoutParams(layoutParams);
 
+            oldDistanzaPercorrere = distanzaPercorrere;
+        }
             /*if (total + i == 0) {
                 ricerca.setText(" ");
                 isShow = true;
