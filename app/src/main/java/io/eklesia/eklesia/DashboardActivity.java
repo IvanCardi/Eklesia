@@ -1,6 +1,5 @@
 package io.eklesia.eklesia;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,35 +7,22 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Explode;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DashboardActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -44,11 +30,14 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     private Toast toast = null;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
-    private boolean mIsAvatarShown = true;
-
-    private LinearLayout ricerca;
+    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 80;
+    private TextView ricerca;
+    private LinearLayout contenitoreRicerca;
     private int mMaxScrollSize;
+    private boolean isShow=true;
+    private int marginHorizontal;
+    private int marginVertical;
+    private float distanzaPercorrere;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +49,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         TextView saluto = (TextView) findViewById(R.id.saluto_dashboard);
         ImageView profilo = (ImageView) findViewById(R.id.profilo_dashboard);
         ImageView chiesa = (ImageView) findViewById(R.id.chiesa_appartenenza_dashboard);
-
+        ricerca=(TextView)findViewById(R.id.ricerca_dashboard);
         chiesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +59,11 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         });
 
         AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        ricerca = (LinearLayout) findViewById(R.id.ricerca);
+        contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
-        mMaxScrollSize = appbarLayout.getTotalScrollRange();
+        marginHorizontal=(int)(getApplicationContext().getResources().getDisplayMetrics().density*24);
+        marginVertical=(int)(getApplicationContext().getResources().getDisplayMetrics().density*12);
+
         saluto.setText("Ciao, " + Utente.getNome() + "!");
 
         profilo.setOnClickListener(new View.OnClickListener() {
@@ -151,52 +142,37 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (mMaxScrollSize == 0)
-            mMaxScrollSize = appBarLayout.getTotalScrollRange();
+        Log.w("scrollzize",new Integer(mMaxScrollSize).toString());
+        int total=appBarLayout.getTotalScrollRange();
+        float percentuale=(float)-i/(float)total*100;
+        if(percentuale>50F)
+        {
+            distanzaPercorrere=total+i;
 
-        int percentage = (Math.abs(i)) * 100 / mMaxScrollSize;
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)contenitoreRicerca.getLayoutParams();
+            /*if(distanzaPercorrere!=0){
+                marginHorizontal-=(marginHorizontal*((float)marginHorizontal/distanzaPercorrere));
+                marginVertical-=(marginVertical*((float)marginVertical/distanzaPercorrere));
+            }
+            else{
+                marginHorizontal=0;
+                marginVertical=0;
+            }*/
 
-        if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mIsAvatarShown) {
-            mIsAvatarShown = false;
-            final LinearLayout tv = (LinearLayout)findViewById(R.id.ricerca);
 
+            layoutParams.setMargins(marginHorizontal--, marginVertical--, marginHorizontal--, marginVertical--);
+            contenitoreRicerca.setLayoutParams(layoutParams);
 
-            ValueAnimator varl = ValueAnimator.ofInt(64,0);
-            varl.setDuration(200);
-            varl.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            /*if (total + i == 0) {
+                ricerca.setText(" ");
+                isShow = true;
+            } else {
+                ricerca.setText("Titolo");//carefull there should a space between double quote otherwise it wont work
+                isShow = false;
+            }*/
 
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv.getLayoutParams();
-                    lp.setMargins((Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue());
-                    tv.setLayoutParams(lp);
-                }
-            });
-            varl.start();
-            appBarLayout.setElevation(8);
 
         }
 
-        if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mIsAvatarShown) {
-            mIsAvatarShown = true;
-
-            final LinearLayout tv = (LinearLayout)findViewById(R.id.ricerca);
-
-
-
-            ValueAnimator varl = ValueAnimator.ofInt(0,64);
-            varl.setDuration(200);
-            varl.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv.getLayoutParams();
-                    lp.setMargins((Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue(), (Integer) animation.getAnimatedValue());
-                    tv.setLayoutParams(lp);
-                }
-            });
-            varl.start();
-            appBarLayout.setElevation(0);
-        }
     }
 }
