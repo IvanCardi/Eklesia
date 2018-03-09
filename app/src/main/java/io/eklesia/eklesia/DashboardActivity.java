@@ -3,10 +3,13 @@ package io.eklesia.eklesia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -14,7 +17,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +29,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
+public class DashboardActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
     boolean doubleBackToExitPressedOnce = false;
     private Toast toast = null;
@@ -34,28 +39,29 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     private TextView ricerca;
     private LinearLayout contenitoreRicerca;
     private int mMaxScrollSize;
-    private boolean isShow=true;
-    private int marginHorizontalAbs;
-    private int marginVerticalAbs;
-    private int marginHorizontal;
-    private int marginVertical;
-    private float distanzaPercorrere;
-    private float oldDistanzaPercorrere;
-    private float percHorizontal;
-    private float percVertical;
-    int i = 0;
+
+    private boolean isFirst = true;
+
+
+    private int initialWidth;
+    private int finalWidth;
+    private int diff;
+    private int diffRelative;
+    private double distanzaIniziale;
+    double costante;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
 
-        final SharedPreferences sp_connection=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         TextView saluto = (TextView) findViewById(R.id.saluto_dashboard);
         ImageView profilo = (ImageView) findViewById(R.id.profilo_dashboard);
         ImageView chiesa = (ImageView) findViewById(R.id.chiesa_appartenenza_dashboard);
-        ricerca=(TextView)findViewById(R.id.ricerca_dashboard);
+        ricerca = (TextView) findViewById(R.id.ricerca_dashboard);
         chiesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,16 +73,21 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
         contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
-        if (i == 0) {
-            marginHorizontalAbs = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
-            marginVerticalAbs = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
-            marginHorizontal = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
-            marginVertical = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
-            i++;
-        } else {
-            marginHorizontal = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 24);
-            marginVertical = (int) (getApplicationContext().getResources().getDisplayMetrics().density * 12);
+
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        try {
+            display.getRealSize(size);
+        } catch (NoSuchMethodError err) {
+            display.getSize(size);
         }
+        contenitoreRicerca.getLayoutParams().width = size.x - 148;
+        finalWidth = size.x;
+        initialWidth = size.x - 148;
+        diff = finalWidth - initialWidth;
+        diffRelative = diff;
+
 
         saluto.setText("Ciao, " + Utente.getNome() + "!");
 
@@ -96,7 +107,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
                 }
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(DashboardActivity.this,pairs.toArray(new Pair[pairs.size()]));
+                        makeSceneTransitionAnimation(DashboardActivity.this, pairs.toArray(new Pair[pairs.size()]));
                 startActivity(i, options.toBundle());
             }
         });
@@ -113,13 +124,13 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showToast( getString(R.string.esci_applicazione_secondo_click));
+        showToast(getString(R.string.esci_applicazione_secondo_click));
 
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 1500);
     }
@@ -147,6 +158,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         // Showing toast finally
         this.toast.show();
     }
+
     private void killToast() {
         if (this.toast != null) {
             this.toast.cancel();
@@ -156,41 +168,43 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (i == 0) {
-            mMaxScrollSize = appBarLayout.getTotalScrollRange();
-            percHorizontal = (float) marginHorizontalAbs / (mMaxScrollSize * 0.2F);
-            percVertical = (float) marginVerticalAbs / (mMaxScrollSize *0.2F);
-            oldDistanzaPercorrere = mMaxScrollSize * 0.2F;
-        } else {
+        if (isFirst == true) {
+            distanzaIniziale = appBarLayout.getTotalScrollRange() * 0.2;
+            costante = diff / distanzaIniziale;
+            isFirst = false;
 
-       // Log.w("scrollzize",new Integer(mMaxScrollSize).toString());
-        int total=appBarLayout.getTotalScrollRange();
-        float percentuale=(float)-i/(float)total*100;
-        if(percentuale>80F) {
-            distanzaPercorrere = total + i;
-            float distanza = oldDistanzaPercorrere - distanzaPercorrere;
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) contenitoreRicerca.getLayoutParams();
-            if (distanzaPercorrere != 0) {
-                marginHorizontal -= distanza * percHorizontal;
-                marginVertical -= distanza * percVertical;
-            } else {
-                marginHorizontal = 0;
-                marginVertical = 0;
-            }
-
-
-            layoutParams.setMargins(marginHorizontal, marginVertical, marginHorizontal, marginVertical);
-            contenitoreRicerca.setLayoutParams(layoutParams);
-
-            oldDistanzaPercorrere = distanzaPercorrere;
         }
-            /*if (total + i == 0) {
-                ricerca.setText(" ");
-                isShow = true;
-            } else {
-                ricerca.setText("Titolo");//carefull there should a space between double quote otherwise it wont work
-                isShow = false;
-            }*/
+        if(contenitoreRicerca.getWidth()!=initialWidth){
+            ViewGroup.LayoutParams params =contenitoreRicerca.getLayoutParams();
+            params.width = initialWidth;
+            contenitoreRicerca.setLayoutParams(params);
+            contenitoreRicerca.setElevation(4);
+            appBarLayout.setBackgroundColor(Color.TRANSPARENT);
+            appBarLayout.setElevation(0);
+        }
+        int total = appBarLayout.getTotalScrollRange();
+        float percentuale = (float) -i / (float) total * 100;
+        if (percentuale >= 80F) {
+            int distanza = total + i;
+            double offset = ((int) distanzaIniziale - distanza);
+            double cost = initialWidth + offset * costante;
+            double x = cost / initialWidth;
+
+            contenitoreRicerca.setElevation(4);
+            appBarLayout.setBackgroundColor(Color.TRANSPARENT);
+            appBarLayout.setElevation(0);
+
+
+            //float in =(float)finalWidth/(float)initialWidth;
+            ViewGroup.LayoutParams params =contenitoreRicerca.getLayoutParams();
+            params.width = (int)cost;
+            if (percentuale >= 99.99F) {
+                contenitoreRicerca.setElevation(0);
+                appBarLayout.setBackgroundColor(Color.WHITE);
+                appBarLayout.setElevation(4);
+            }
+            contenitoreRicerca.setLayoutParams(params);
+
 
 
         }
