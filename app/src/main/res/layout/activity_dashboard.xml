@@ -101,7 +101,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="16dp"
-            app:layout_scrollFlags="snap">
+            app:layout_scrollFlags="snap"
+            android:transitionName="barra_ricerca">
 
             <TextView
                 android:id="@+id/ricerca_dashboard"

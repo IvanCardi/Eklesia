@@ -74,6 +74,16 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
 
+        ricerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this, RicercaActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(DashboardActivity.this, contenitoreRicerca, "barra_ricerca");
+                startActivity(i, options.toBundle());
+            }
+        });
+
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
