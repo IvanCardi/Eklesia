@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class Utente {
 
-    static private int id_utente;
+    static private int id;
     static private String nome;
     static private String cognome;
     static private String email;
@@ -30,7 +30,7 @@ public class Utente {
         JSONArray chiese_seguite_j;
         JSONArray eventi_seguiti_j;
 
-        Utente.id_utente = utente.getInt("id");
+        Utente.id = utente.getInt("id");
         Utente.nome = utente.getString("nome");
         Utente.cognome = utente.getString("cognome");
         Utente.email = utente.getString("email");
@@ -63,8 +63,8 @@ public class Utente {
 
     }
 
-    public static int getIdUtente(){
-        return id_utente;
+    public static int getId(){
+        return id;
     }
 
     public static String getNome() {

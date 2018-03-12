@@ -36,6 +36,7 @@ public class ChiesaActivity extends AppCompatActivity implements AppBarLayout.On
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setSupportActionBar(toolbar);
+        //getSupportActionBar().setElevation(8);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
