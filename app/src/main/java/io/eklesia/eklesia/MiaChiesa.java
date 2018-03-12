@@ -3,6 +3,8 @@ package io.eklesia.eklesia;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by ivanc on 20/02/2018.
  */
@@ -17,6 +19,8 @@ public class MiaChiesa {
     static private String foto;
     static private Congregazione congregazione;
     static private Comune comune;
+    static private ArrayList<Incontro> incontri;
+    static private ArrayList<Notizia> notizie;
 
     public static void setAll(JSONObject chiesa) throws JSONException {
         MiaChiesa.id = chiesa.getInt("id");
