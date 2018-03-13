@@ -1,8 +1,10 @@
 package io.eklesia.eklesia;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -19,10 +21,10 @@ public class MiaChiesa {
     static private String foto;
     static private Congregazione congregazione;
     static private Comune comune;
-    static private ArrayList<Incontro> incontri;
-    static private ArrayList<Notizia> notizie;
+    static private ArrayList<Incontro> incontri = new ArrayList<>();
+    static private ArrayList<Comunicazione> notizie = new ArrayList<>();
 
-    public static void setAll(JSONObject chiesa) throws JSONException {
+    public static void setInfo(JSONObject chiesa) throws JSONException {
         MiaChiesa.id = chiesa.getInt("id");
         MiaChiesa.nome = chiesa.getString("nome");
         MiaChiesa.indirizzo = chiesa.getString("nome");
@@ -32,6 +34,27 @@ public class MiaChiesa {
         MiaChiesa.foto = chiesa.getString("foto");
         MiaChiesa.congregazione = new Congregazione(chiesa.getJSONObject("congregazione"));
         MiaChiesa.comune = new Comune(chiesa.getJSONObject("comune"));
+    }
+
+    public static void setIncontri(JSONArray incontri) throws JSONException {
+        for (int i = 0; i < incontri.length(); i++) {
+            MiaChiesa.incontri.add(new Incontro(incontri.getJSONObject(i)));
+        }
+    }
+
+    public static void setNotizie(JSONArray notizie) throws JSONException, ParseException {
+        for (int i = 0; i < notizie.length(); i++) {
+            MiaChiesa.notizie.add(new Comunicazione(notizie.getJSONObject(i)));
+        }
+    }
+
+
+    public static ArrayList<Incontro> getIncontri() {
+        return incontri;
+    }
+
+    public static ArrayList<Comunicazione> getNotizie() {
+        return notizie;
     }
 
     public static String getNome() {
