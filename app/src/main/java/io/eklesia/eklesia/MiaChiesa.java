@@ -27,7 +27,7 @@ public class MiaChiesa {
     public static void setInfo(JSONObject chiesa) throws JSONException {
         MiaChiesa.id = chiesa.getInt("id");
         MiaChiesa.nome = chiesa.getString("nome");
-        MiaChiesa.indirizzo = chiesa.getString("nome");
+        MiaChiesa.indirizzo = chiesa.getString("indirizzo");
         MiaChiesa.sito = chiesa.getString("sito");
         MiaChiesa.email = chiesa.getString("email");
         MiaChiesa.telefono = chiesa.getString("telefono");

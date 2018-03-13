@@ -110,7 +110,7 @@ public class Utente {
             Utente.maschio=false;
     }
 
-    public static int getChiesaAppartenenza() {
+    public static Integer getChiesaAppartenenza() {
         return id_chiesa;
     }
 

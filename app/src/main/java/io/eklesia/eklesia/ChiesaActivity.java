@@ -13,6 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ChiesaActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
@@ -30,6 +35,12 @@ public class ChiesaActivity extends AppCompatActivity implements AppBarLayout.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chiesa);
+        TextView nomeChiesa = (TextView) findViewById(R.id.nome_chiesa_activity);
+        nomeChiesa.setText(MiaChiesa.getNome());
+        TextView indirizzo = (TextView) findViewById(R.id.indirizzo_chiesa_activity);
+        indirizzo.setText(MiaChiesa.getIndirizzo());
+        //CircleImageView imgProfilo = (CircleImageView) findViewById(R.id.materialup_profile_image);
+        //imgProfilo.setImageResource(MiaChiesa.getFoto());
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         toolbar=(Toolbar) findViewById(R.id.toolbar);

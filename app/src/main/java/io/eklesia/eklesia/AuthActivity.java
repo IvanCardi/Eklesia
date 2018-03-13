@@ -33,6 +33,18 @@ public class AuthActivity extends AppCompatActivity {
         final String a_token =sp_connection.getString("a_token","");
         final String r_token = sp_connection.getString("r_token","");
 
+        final CallbackFunction RispostaGetChiesa = new CallbackFunction() {
+            @Override
+            public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                MiaChiesa.setInfo(risposta.getJSONObject("chiesa"));
+            }
+
+            @Override
+            public void onError(JSONObject risposta) throws JSONException {
+
+            }
+        };
+
 
         if(a_token.equals("") && r_token.equals(""))
         {
@@ -47,6 +59,12 @@ public class AuthActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                     Utente.setAll(risposta.getJSONObject("utente"));
+                    if (!Utente.getChiesaAppartenenza().equals(null)){
+                        Map<String,String> map= new HashMap<>();
+                        map.put("a_token",sp_connection.getString("a_token",""));
+                        RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
+                        requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
+                    }
                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
@@ -73,6 +91,12 @@ public class AuthActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                                     Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
+                                    if (!Utente.getChiesaAppartenenza().equals(null)){
+                                        Map<String,String> map= new HashMap<>();
+                                        map.put("a_token",sp_connection.getString("a_token",""));
+                                        RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
+                                        requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
+                                    }
                                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);

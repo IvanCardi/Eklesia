@@ -71,6 +71,18 @@ public class LoginActivity extends AppCompatActivity {
 
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
+        final CallbackFunction RispostaGetChiesa = new CallbackFunction() {
+            @Override
+            public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                MiaChiesa.setInfo(risposta.getJSONObject("chiesa"));
+            }
+
+            @Override
+            public void onError(JSONObject risposta) throws JSONException {
+
+            }
+        };
+
 
         final JSONObject jsonObject = new JSONObject();
 
@@ -88,6 +100,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject risposta) throws JSONException, ParseException {
                         Utente.setAll(risposta.getJSONObject("utente"));
+                        if (!Utente.getChiesaAppartenenza().equals(null)){
+                            Map<String,String> map= new HashMap<>();
+                            map.put("a_token",sp_connection.getString("a_token",""));
+                            RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                            requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
+                        }
                         Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
