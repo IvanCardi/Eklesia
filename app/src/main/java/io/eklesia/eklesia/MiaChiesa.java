@@ -12,15 +12,15 @@ import java.util.ArrayList;
  */
 
 public class MiaChiesa {
-    static private int id;
+    static private int id = 0;
     static private String nome;
     static private String indirizzo;
     static private String sito;
     static private String email;
     static private String telefono;
     static private String foto;
-    static private Congregazione congregazione;
-    static private Comune comune;
+    static private Congregazione congregazione = null;
+    static private Comune comune = null;
     static private ArrayList<Incontro> incontri = new ArrayList<>();
     static private ArrayList<Comunicazione> notizie = new ArrayList<>();
 
@@ -32,8 +32,28 @@ public class MiaChiesa {
         MiaChiesa.email = chiesa.getString("email");
         MiaChiesa.telefono = chiesa.getString("telefono");
         MiaChiesa.foto = chiesa.getString("foto");
-        MiaChiesa.congregazione = new Congregazione(chiesa.getJSONObject("congregazione"));
-        MiaChiesa.comune = new Comune(chiesa.getJSONObject("comune"));
+        if (!chiesa.isNull("congregazione"))
+            MiaChiesa.congregazione = new Congregazione(chiesa.getJSONObject("congregazione"));
+        if (!chiesa.isNull("comune"))
+            MiaChiesa.comune = new Comune(chiesa.getJSONObject("comune"));
+    }
+
+    public static void clear() {
+        MiaChiesa.id = 0;
+        MiaChiesa.nome = "";
+        MiaChiesa.indirizzo = "";
+        MiaChiesa.sito = "";
+        MiaChiesa.email = "";
+        MiaChiesa.telefono = "";
+        MiaChiesa.foto = "";
+        MiaChiesa.congregazione = null;
+        MiaChiesa.comune = null;
+    }
+
+    public static boolean isSet() {
+        if (MiaChiesa.id == 0)
+            return false;
+        return true;
     }
 
     public static void setIncontri(JSONArray incontri) throws JSONException {

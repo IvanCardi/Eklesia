@@ -15,15 +15,15 @@ import java.util.Date;
 
 public class Utente {
 
-    static private int id;
+    static private int id = 0;
     static private String nome;
     static private String cognome;
     static private String email;
     static private Date data_nascita;
     static private boolean maschio;
     static private Integer id_chiesa;
-    static private ArrayList <Integer> chiese_seguite=new ArrayList<>();
-    static private ArrayList <Integer> eventi_seguiti=new ArrayList<>();
+    static private ArrayList<Integer> chiese_seguite = new ArrayList<>();
+    static private ArrayList<Integer> eventi_seguiti = new ArrayList<>();
 
     public static void setAll(JSONObject utente) throws JSONException, ParseException {
 
@@ -36,26 +36,26 @@ public class Utente {
         Utente.email = utente.getString("email");
         Utente.setMaschio(utente.getInt("sesso"));
 
-        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Utente.data_nascita = df.parse(utente.getString("data_nascita"));
 
-        if(utente.isNull("id_chiesa"))
+        if (utente.isNull("id_chiesa"))
             Utente.setChiesaAppartenenza(null);
         else
             Utente.setChiesaAppartenenza(utente.getInt("id_chiesa"));
 
         eventi_seguiti_j = utente.getJSONArray("eventi_seguiti");
-        if (eventi_seguiti_j.length()>0) {
+        if (eventi_seguiti_j.length() > 0) {
             int len = eventi_seguiti_j.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 Utente.eventi_seguiti.add(eventi_seguiti_j.getJSONObject(i).getInt("id"));
             }
         }
 
         chiese_seguite_j = utente.getJSONArray("chiese_seguite");
-        if (chiese_seguite_j.length()>0) {
+        if (chiese_seguite_j.length() > 0) {
             int len = chiese_seguite_j.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 Utente.chiese_seguite.add(chiese_seguite_j.getJSONObject(i).getInt("id"));
             }
         }
@@ -63,7 +63,18 @@ public class Utente {
 
     }
 
-    public static int getId(){
+    public static void clear(){
+        Utente.id = 0;
+
+    }
+
+    public static boolean isSet() {
+        if (Utente.getId() == 0)
+            return false;
+        return true;
+    }
+
+    public static int getId() {
         return id;
     }
 
@@ -104,10 +115,10 @@ public class Utente {
     }
 
     public static void setMaschio(int maschio) {
-        if(maschio==1)
+        if (maschio == 1)
             Utente.maschio = true;
         else
-            Utente.maschio=false;
+            Utente.maschio = false;
     }
 
     public static Integer getChiesaAppartenenza() {
@@ -115,30 +126,30 @@ public class Utente {
     }
 
     public static void setChiesaAppartenenza(Integer id_chiesa_appartenenza) {
-            Utente.id_chiesa = id_chiesa_appartenenza;
+        Utente.id_chiesa = id_chiesa_appartenenza;
     }
 
-    public static void addChiesa (Integer chiesa){
+    public static void addChiesa(Integer chiesa) {
         Utente.chiese_seguite.add(chiesa);
     }
 
-    public static void removeChiesa (Integer chiesa){
+    public static void removeChiesa(Integer chiesa) {
         Utente.chiese_seguite.remove(chiesa);
     }
 
-    public static void addEvento (Integer evento){
+    public static void addEvento(Integer evento) {
         Utente.eventi_seguiti.add(evento);
     }
 
-    public static void removeEvento (Integer evento){
+    public static void removeEvento(Integer evento) {
         Utente.eventi_seguiti.remove(evento);
     }
 
-    public static boolean checkChiesa(Integer chiesa){
+    public static boolean checkChiesa(Integer chiesa) {
         return chiese_seguite.contains(chiesa);
     }
 
-    public static boolean checkEvento (Integer evento){
+    public static boolean checkEvento(Integer evento) {
         return eventi_seguiti.contains(evento);
     }
 

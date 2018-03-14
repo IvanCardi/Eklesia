@@ -68,6 +68,7 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/saluto_dashboard"
                 style="@style/TextAppearance.AppCompat.Display4"
                 android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package io.eklesia.eklesia;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,8 +28,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
@@ -54,36 +65,14 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
-        TextView saluto = (TextView) findViewById(R.id.saluto_dashboard);
+        AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        final TextView saluto = (TextView) findViewById(R.id.saluto_dashboard);
         ImageView profilo = (ImageView) findViewById(R.id.profilo_dashboard);
         ImageView chiesa = (ImageView) findViewById(R.id.chiesa_appartenenza_dashboard);
         ricerca = (TextView) findViewById(R.id.ricerca_dashboard);
-        chiesa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(DashboardActivity.this, ChiesaActivity.class);
-                startActivity(i);
-            }
-        });
-
-        AppBarLayout appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
         contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
-
-        ricerca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(DashboardActivity.this, RicercaActivity.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(DashboardActivity.this, contenitoreRicerca, "barra_ricerca");
-                startActivity(i, options.toBundle());
-            }
-        });
-
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -99,7 +88,62 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         diffRelative = diff;
 
 
-        saluto.setText("Ciao, " + Utente.getNome() + "!");
+        if (!Utente.isSet()) {
+            CallbackFunction getUtenteInformazioni = new CallbackFunction() {
+                @Override
+                public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                    Utente.setAll(risposta.getJSONObject("utente"));
+                    saluto.setText("Ciao, " + Utente.getNome() + "!");
+                    saluto.setVisibility(View.VISIBLE);
+
+                    saluto.setAlpha(0.0f);
+                    saluto.animate()
+                            .alpha(1.0f)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+
+                                }
+                            });
+                    if(!risposta.isNull("chiesa")){
+                        MiaChiesa.setInfo(risposta.getJSONObject("chiesa"));
+                    }
+
+                    //saluto.setTranslationX(-saluto.getWidth());
+                }
+
+                @Override
+                public void onError(JSONObject risposta) throws JSONException {
+                    Toast.makeText(DashboardActivity.this, risposta.get("message").toString(), Toast.LENGTH_SHORT).show();
+                }
+            };
+
+            Map<String, String> map = new HashMap<>();
+            map.put("a_token", sp_connection.getString("a_token", ""));
+
+            RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
+            requestQueue.add(Connessione.sendGet(map, "api/utente", getUtenteInformazioni));
+        }
+        //saluto.setText("Ciao, " + Utente.getNome() + "!");
+
+
+        ricerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this, RicercaActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(DashboardActivity.this, contenitoreRicerca, "barra_ricerca");
+                startActivity(i, options.toBundle());
+            }
+        });
+        chiesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this, ChiesaActivity.class);
+                startActivity(i);
+            }
+        });
 
         profilo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +172,8 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-
+            Utente.clear();
+            MiaChiesa.clear();
             super.onBackPressed();
             return;
         }
@@ -184,8 +229,8 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
             isFirst = false;
 
         }
-        if(contenitoreRicerca.getWidth()!=initialWidth){
-            ViewGroup.LayoutParams params =contenitoreRicerca.getLayoutParams();
+        if (contenitoreRicerca.getWidth() != initialWidth) {
+            ViewGroup.LayoutParams params = contenitoreRicerca.getLayoutParams();
             params.width = initialWidth;
             contenitoreRicerca.setLayoutParams(params);
             contenitoreRicerca.setElevation(4);
@@ -206,15 +251,14 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
 
 
             //float in =(float)finalWidth/(float)initialWidth;
-            ViewGroup.LayoutParams params =contenitoreRicerca.getLayoutParams();
-            params.width = (int)cost;
+            ViewGroup.LayoutParams params = contenitoreRicerca.getLayoutParams();
+            params.width = (int) cost;
             if (percentuale >= 99.99F) {
                 contenitoreRicerca.setElevation(0);
                 appBarLayout.setBackgroundColor(Color.WHITE);
                 appBarLayout.setElevation(4);
             }
             contenitoreRicerca.setLayoutParams(params);
-
 
 
         }

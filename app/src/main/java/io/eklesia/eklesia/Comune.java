@@ -14,6 +14,7 @@ public class Comune {
     private String longitudine;
     private String regione;
     private String provincia;
+    private String siglaProvincia;
 
     public Comune(int id, String nome, String latitudine, String longitudine, String regione, String provincia) {
         this.id = id;
@@ -31,6 +32,7 @@ public class Comune {
         this.longitudine = comune.getString("longitudine");
         this.regione = comune.getString("regione");
         this.provincia = comune.getString("provincia");
+        this.siglaProvincia=comune.getString("sigla_provincia");
     }
 
 
@@ -83,4 +85,11 @@ public class Comune {
     }
 
 
+    public String getSiglaProvincia() {
+        return siglaProvincia;
+    }
+
+    public void setSiglaProvincia(String siglaProvincia) {
+        this.siglaProvincia = siglaProvincia;
+    }
 }

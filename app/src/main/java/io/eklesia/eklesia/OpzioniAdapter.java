@@ -69,6 +69,8 @@ public class OpzioniAdapter extends RecyclerView.Adapter<OpzioniAdapter.ViewHold
                             SharedPreferences.Editor editor_connection = sp_connection.edit();
                             editor_connection.clear();
                             editor_connection.commit();
+                            Utente.clear();
+                            MiaChiesa.clear();
                             Intent i = new Intent(l.getContext(), LoginActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             i.addCategory(Intent.CATEGORY_HOME);

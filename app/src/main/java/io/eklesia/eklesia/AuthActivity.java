@@ -30,8 +30,8 @@ public class AuthActivity extends AppCompatActivity {
         final SharedPreferences sp_connection = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
 
-        final String a_token =sp_connection.getString("a_token","");
-        final String r_token = sp_connection.getString("r_token","");
+        final String a_token = sp_connection.getString("a_token", "");
+        final String r_token = sp_connection.getString("r_token", "");
 
         final CallbackFunction RispostaGetChiesa = new CallbackFunction() {
             @Override
@@ -46,25 +46,16 @@ public class AuthActivity extends AppCompatActivity {
         };
 
 
-        if(a_token.equals("") && r_token.equals(""))
-        {
+        if (a_token.equals("") && r_token.equals("")) {
             Intent i = new Intent(AuthActivity.this, LoginActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             finish();
-        }
-        else{
+        } else {
 
-            CallbackFunction RispostaConAccessToken= new CallbackFunction() {
+            CallbackFunction RispostaConAccessToken = new CallbackFunction() {
                 @Override
                 public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                    Utente.setAll(risposta.getJSONObject("utente"));
-                    if (!Utente.getChiesaAppartenenza().equals(null)){
-                        Map<String,String> map= new HashMap<>();
-                        map.put("a_token",sp_connection.getString("a_token",""));
-                        RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                        requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
-                    }
                     Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
@@ -82,40 +73,15 @@ public class AuthActivity extends AppCompatActivity {
                     CallbackFunction RispostaConRefreshToken = new CallbackFunction() {
                         @Override
                         public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+
                             SharedPreferences.Editor editor_connection = sp_connection.edit();
                             editor_connection.putString("a_token", risposta.getString("access_token"));
                             editor_connection.putString("r_token", risposta.getString("refresh_token"));
                             editor_connection.commit();
-
-                            CallbackFunction RispostaGetInformazioni = new CallbackFunction() {
-                                @Override
-                                public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                                    Utente.setAll(risposta.getJSONArray("utente").getJSONObject(0));
-                                    if (!Utente.getChiesaAppartenenza().equals(null)){
-                                        Map<String,String> map= new HashMap<>();
-                                        map.put("a_token",sp_connection.getString("a_token",""));
-                                        RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                                        requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
-                                    }
-                                    Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
-                                    finish();
-                                }
-
-                                @Override
-                                public void onError(JSONObject risposta) throws JSONException {
-                                    Toast.makeText(AuthActivity.this,"non andato",Toast.LENGTH_LONG).show();
-                                }
-                            };
-
-                            Map<String,String> map= new HashMap<>();
-                            map.put("a_token",sp_connection.getString("a_token",""));
-
-                            RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                            requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
-
-
+                            Intent i = new Intent(AuthActivity.this, DashboardActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            finish();
                         }
 
                         @Override
@@ -127,17 +93,16 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     };
                     RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-                    requestQueue.add(Connessione.sendPost(null,"oauth/token", jsonObject, RispostaConRefreshToken));
+                    requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, RispostaConRefreshToken));
                 }
             };
 
-            Map<String,String> map= new HashMap<>();
-            map.put("a_token",sp_connection.getString("a_token",""));
+            Map<String, String> map = new HashMap<>();
+            map.put("a_token", sp_connection.getString("a_token", ""));
 
             RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-            requestQueue.add(Connessione.sendGet(map,"api/utente", RispostaConAccessToken));
+            requestQueue.add(Connessione.sendGet(map, "api/utente/verification", RispostaConAccessToken));
         }
-
 
 
     }

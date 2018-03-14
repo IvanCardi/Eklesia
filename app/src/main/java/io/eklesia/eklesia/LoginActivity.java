@@ -55,17 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         final ImageButton registrati = (ImageButton) findViewById(R.id.registrati_login);
         Button accedi = (Button) findViewById(R.id.accedi_login);
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Explode explode = new Explode();
-            explode.excludeTarget(android.R.id.statusBarBackground, true);
-            explode.excludeTarget(android.R.id.navigationBarBackground, true);
-
-            getWindow().setEnterTransition(explode);
-            getWindow().setExitTransition(explode);
-        }*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            //getWindow().setEnterTransition(new Fade());
             getWindow().setExitTransition(new Explode());
         }
 
@@ -88,51 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
         final Map<Integer, String> errori = new HashMap<>();
 
-        final CallbackFunction RispostaLogin = new CallbackFunction() {
-            @Override
-            public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                SharedPreferences.Editor editor_connection = sp_connection.edit();
-                editor_connection.putString("a_token", risposta.getString("access_token"));
-                editor_connection.putString("r_token", risposta.getString("refresh_token"));
-                editor_connection.commit();
-
-                CallbackFunction RispostaGetInformazioni = new CallbackFunction() {
-                    @Override
-                    public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                        Utente.setAll(risposta.getJSONObject("utente"));
-                        if (!Utente.getChiesaAppartenenza().equals(null)){
-                            Map<String,String> map= new HashMap<>();
-                            map.put("a_token",sp_connection.getString("a_token",""));
-                            RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                            requestQueue.add(Connessione.sendGet(map,"api/chiesa/"+Utente.getChiesaAppartenenza(), RispostaGetChiesa));
-                        }
-                        Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(JSONObject risposta) throws JSONException {
-
-                    }
-                };
-
-                Map<String, String> map = new HashMap<>();
-                map.put("a_token", sp_connection.getString("a_token", ""));
-
-                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                requestQueue.add(Connessione.sendGet(map, "api/utente", RispostaGetInformazioni));
-
-
-            }
-
-            @Override
-            public void onError(JSONObject risposta) throws JSONException {
-                Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
-            }
-        };
-
         accedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +94,26 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    CallbackFunction RispostaLogin = new CallbackFunction() {
+                        @Override
+                        public void onResponse(JSONObject risposta) throws JSONException, ParseException {
+                            SharedPreferences.Editor editor_connection = sp_connection.edit();
+                            editor_connection.putString("a_token", risposta.getString("access_token"));
+                            editor_connection.putString("r_token", risposta.getString("refresh_token"));
+                            editor_connection.commit();
+                            Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            finish();
+
+                        }
+
+                        @Override
+                        public void onError(JSONObject risposta) throws JSONException {
+                            Snackbar.make(findViewById(R.id.login_layout), risposta.getString("message"), Snackbar.LENGTH_LONG).show();
+                        }
+                    };
+
                     RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                     requestQueue.add(Connessione.sendPost(null, "oauth/token", jsonObject, RispostaLogin));
 
