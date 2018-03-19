@@ -11,6 +11,7 @@
 
     <style name='NoBarTheme' parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:buttonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
@@ -23,6 +24,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:buttonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
         <item  name="android:imageButtonStyle">@style/Base.Widget.AppCompat.Button.Borderless</item>
+    </style>
+    <style name='Toolbar' parent="NoBarTheme">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
 </resources>

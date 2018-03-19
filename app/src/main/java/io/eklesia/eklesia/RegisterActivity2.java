@@ -90,29 +90,11 @@ public class RegisterActivity2 extends AppCompatActivity {
                         editor_connection.putString("a_token", risposta.getString("access_token"));
                         editor_connection.putString("r_token", risposta.getString("refresh_token"));
                         editor_connection.commit();
-
-                        CallbackFunction rispostaGetInformazioni = new CallbackFunction() {
-                            @Override
-                            public void onResponse(JSONObject risposta) throws JSONException, ParseException {
-                                Utente.setAll(risposta.getJSONObject("utente"));
-                                Intent i = new Intent(RegisterActivity2.this, DashboardActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.addCategory(Intent.CATEGORY_HOME);
-                                startActivity(i);
-                                finish();
-                            }
-
-                            @Override
-                            public void onError(JSONObject risposta) throws JSONException {
-
-                            }
-                        };
-
-                        Map<String, String> map = new HashMap<>();
-                        map.put("a_token", sp_connection.getString("a_token", ""));
-
-                        RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity2.this);
-                        requestQueue.add(Connessione.sendGet(map, "api/utente", rispostaGetInformazioni));
+                        Intent i = new Intent(RegisterActivity2.this, DashboardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(i);
+                        finish();
                     }
 
                     @Override

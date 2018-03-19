@@ -9,11 +9,13 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,8 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +78,21 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         contenitoreRicerca = (LinearLayout) findViewById(R.id.ricerca);
         appbarLayout.addOnOffsetChangedListener(this);
 
-        Display display = getWindowManager().getDefaultDisplay();
+        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home", R.drawable.ic_home_black_24dp);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Chiese", R.drawable.ic_options_black_24dp);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Prediche", R.drawable.ic_help_black_24dp);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Eventi", R.drawable.ic_account_circle_black_24dp);
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item3);
+        bottomNavigation.addItem(item4);
+        bottomNavigation.setDefaultBackgroundColor(Color.WHITE);
+        bottomNavigation.setAccentColor(fetchColor(R.color.colorPrimary));
+        bottomNavigation.setInactiveColor(fetchColor(R.color.colorPrimaryLight));
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
+
+        /*Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         try {
             display.getRealSize(size);
@@ -85,7 +103,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
         finalWidth = size.x;
         initialWidth = size.x - 148;
         diff = finalWidth - initialWidth;
-        diffRelative = diff;
+        diffRelative = diff;*/
 
 
         if (!Utente.isSet()) {
@@ -106,11 +124,9 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
 
                                 }
                             });
-                    if(!risposta.isNull("chiesa")){
+                    if (!risposta.isNull("chiesa")) {
                         MiaChiesa.setInfo(risposta.getJSONObject("chiesa"));
                     }
-
-                    //saluto.setTranslationX(-saluto.getWidth());
                 }
 
                 @Override
@@ -124,11 +140,24 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
 
             RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
             requestQueue.add(Connessione.sendGet(map, "api/utente", getUtenteInformazioni));
+        } else {
+            saluto.setText("Ciao, " + Utente.getNome() + "!");
+            saluto.setVisibility(View.VISIBLE);
+
+            saluto.setAlpha(0.0f);
+            saluto.animate()
+                    .alpha(1.0f)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+
+                        }
+                    });
         }
-        //saluto.setText("Ciao, " + Utente.getNome() + "!");
 
 
-        ricerca.setOnClickListener(new View.OnClickListener() {
+        /*ricerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(DashboardActivity.this, RicercaActivity.class);
@@ -136,7 +165,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
                         makeSceneTransitionAnimation(DashboardActivity.this, contenitoreRicerca, "barra_ricerca");
                 startActivity(i, options.toBundle());
             }
-        });
+        });*/
         chiesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,6 +194,9 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
                 startActivity(i, options.toBundle());
             }
         });
+    }
+    private int fetchColor(@ColorRes int color) {
+        return ContextCompat.getColor(this, color);
     }
 
 
@@ -223,7 +255,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (isFirst == true) {
+        /*if (isFirst == true) {
             distanzaIniziale = appBarLayout.getTotalScrollRange() * 0.2;
             costante = diff / distanzaIniziale;
             isFirst = false;
@@ -261,7 +293,7 @@ public class DashboardActivity extends AppCompatActivity implements AppBarLayout
             contenitoreRicerca.setLayoutParams(params);
 
 
-        }
+        }*/
 
     }
 }
