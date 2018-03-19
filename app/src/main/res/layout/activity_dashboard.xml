@@ -12,6 +12,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:stateListAnimator="@animator/appbar_always_elevated"
         android:clipToPadding="false">
 
         <android.support.v7.widget.Toolbar
@@ -20,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
-            android:elevation="8dp"
             android:fitsSystemWindows="true"
             android:gravity="top"
             app:layout_scrollFlags="enterAlways"
@@ -37,7 +37,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:clickable="true"
-                    android:srcCompat="@drawable/ic_church"
+                    android:src="@drawable/ic_church"
                     android:tint="@color/colorPrimary"/>
 
                 <ImageView
@@ -48,7 +48,18 @@
                     android:layout_centerVertical="true"
                     android:clickable="true"
                     android:layout_marginRight="16dp"
-                    app:srcCompat="@drawable/ic_account_circle_black_24dp"
+                    android:src="@drawable/ic_account_circle_black_24dp"
+                    android:tint="@color/colorPrimary"/>
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/dashboard.search_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/profilo_dashboard"
+                    android:clickable="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_search_24dp"
                     android:tint="@color/colorPrimary"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
@@ -88,74 +99,10 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/frame_fragmentholder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:paddingTop="24dp">
-
-                <TextView
-                    android:id="@+id/saluto_dashboard"
-                    style="@style/TextAppearance.AppCompat.Display4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="32dp"
-                    android:textStyle="bold"
-                    android:transitionName="titolo"
-                    android:visibility="invisible"/>
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Display4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:text="E' un giorno bello per visitare un pò di chiese"
-                    android:textAlignment="viewStart"
-                    android:textSize="16dp"
-                    android:transitionName="titolo"/>
-            </LinearLayout>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/testo_prova"/>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/testo_prova"/>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/testo_prova"/>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/testo_prova"/>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/testo_prova"/>
-        </LinearLayout>
+            android:layout_height="match_parent"/>
 
 
     </android.support.v4.widget.NestedScrollView>
