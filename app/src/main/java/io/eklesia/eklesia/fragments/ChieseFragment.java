@@ -4,21 +4,31 @@ package io.eklesia.eklesia.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
+
+import javax.security.auth.callback.Callback;
 
 import io.eklesia.eklesia.R;
+import io.eklesia.eklesia.ricerca.CercaChieseFragment;
+import io.eklesia.eklesia.ricerca.ContenutoFiltro;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChieseFragment extends Fragment {
+public class ChieseFragment extends Fragment implements AAH_FabulousFragment.Callbacks  {
 
 
+    CercaChieseFragment mChieseFragment;
     public ChieseFragment() {
         // Required empty public constructor
     }
@@ -46,8 +56,32 @@ public class ChieseFragment extends Fragment {
             imageView.setVisibility(View.VISIBLE);
         }
 
+        final FloatingActionButton actionButton=(FloatingActionButton)rootView.findViewById(R.id.fab);
+        mChieseFragment=CercaChieseFragment.newInstance();
+        mChieseFragment.setCallbacks(this);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mChieseFragment.setParentFab(actionButton);
+                mChieseFragment.show(getActivity().getSupportFragmentManager(),mChieseFragment.getTag());
+
+            }
+        });
+
 
         return rootView;
+    }
+
+    @Override
+    public void onResult(Object result) {
+        Log.d("k9res", "onResult: " + result.toString());
+        if (result.toString().equalsIgnoreCase("swiped_down")) {
+            //do something or nothing
+        } else {
+            ContenutoFiltro risposta=(ContenutoFiltro) result;
+            Toast.makeText(getActivity(),Integer.toString(risposta.getDistanza()),Toast.LENGTH_LONG).show();
+        }
     }
 
 }

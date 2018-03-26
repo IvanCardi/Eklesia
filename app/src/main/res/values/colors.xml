@@ -6,4 +6,6 @@
     <color name="colorAccent">#ffffff</color>
     <color name="black">#000000</color>
     <color name="grey">#e0e0e0 </color>
+    <color name="filters_chips">#b3e5fc</color>
+    <color name="filters_header">#303f9f</color>
 </resources>

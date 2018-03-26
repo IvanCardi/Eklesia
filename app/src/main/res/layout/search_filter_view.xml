@@ -26,10 +26,6 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="2dp"
             app:tabMode="scrollable"
-            app:tabPaddingBottom="0dp"
-            app:tabPaddingEnd="0dp"
-            app:tabPaddingStart="0dp"
-            app:tabPaddingTop="0dp"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/white"/>
 
@@ -46,8 +42,9 @@
         <LinearLayout
             android:id="@+id/ll_buttons"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -56,8 +53,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/states_fab_button"
-                android:src="@drawable/refresh"
+                android:background="@null"
+                android:src="@drawable/ic_refresh_24dp"
                 android:tint="@android:color/white"/>
 
             <ImageButton
@@ -65,8 +62,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/states_fab_button"
-                android:src="@drawable/done"
+                android:background="@null"
+                android:src="@drawable/ic_done_24dp"
                 android:tint="@android:color/white"/>
 
         </LinearLayout>
