@@ -27,7 +27,6 @@ import java.util.Map;
 
 import io.eklesia.eklesia.CallbackFunction;
 import io.eklesia.eklesia.Connessione;
-import io.eklesia.eklesia.DashboardActivity;
 import io.eklesia.eklesia.MiaChiesa;
 import io.eklesia.eklesia.R;
 import io.eklesia.eklesia.Utente;
@@ -98,7 +97,7 @@ public class HomeFragment extends Fragment {
             map.put("a_token", sp_connection.getString("a_token", ""));
 
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            requestQueue.add(Connessione.sendGet(map, "api/utente", getUtenteInformazioni));
+            requestQueue.add(Connessione.sendGet(map, "api/utente", getUtenteInformazioni, null));
         } else {
             saluto.setText("Ciao, " + Utente.getNome() + "!");
             saluto.setVisibility(View.VISIBLE);

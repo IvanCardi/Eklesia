@@ -70,7 +70,9 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
     TabLayout tabs_types;
     ImageButton applicaButton;
     ImageButton refreshButton;
+    DiscreteSeekBar seekBar;
     SezioniPageAdapter mAdapter;
+    AutoCompleteTextView posizioneET;
     List<TextView> textviews = new ArrayList<>();
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private GoogleApiClient mGoogleApiClient;
@@ -111,6 +113,8 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
                 }
 
                 filtriApplicati.clear();
+                posizioneET.setText("");
+                seekBar.setProgress(2);
                 mContenutoFiltro.clear();
             }
         });
@@ -150,7 +154,7 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
                 case 0:
                     layout = (ViewGroup) inflater.inflate(R.layout.ricerca_posizione_layout, collection, false);
                     Button posizione = (Button) layout.findViewById(R.id.ricerca_posizione_posizione_button);
-                    DiscreteSeekBar seekBar = (DiscreteSeekBar) layout.findViewById(R.id.ricerca_posizione_seekbar);
+                    seekBar = (DiscreteSeekBar) layout.findViewById(R.id.ricerca_posizione_seekbar);
                     final TextView kmTextView = (TextView) layout.findViewById(R.id.ricerca_posizione_distanza_scelta_textView);
                     seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
                         @Override
@@ -169,7 +173,7 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
 
                         }
                     });
-                    final AutoCompleteTextView posizioneET = (AutoCompleteTextView) layout.findViewById(R.id.ricerca_posizione_posizione_editText);
+                    posizioneET = (AutoCompleteTextView) layout.findViewById(R.id.ricerca_posizione_posizione_editText);
 
                     posizioneET.setOnItemClickListener(mAutocompleteClickListener);
                     mPlaceArrayAdapter = new PlaceArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, null, null);
@@ -296,12 +300,12 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
                                 tv.setTag("unselected");
                                 tv.setBackgroundResource(R.drawable.chip_unselected);
                                 tv.setTextColor(ContextCompat.getColor(getContext(), R.color.filters_chips));
-                                removeFromSelectedMap(filter_category, congregazioni.get(finalI).getNome());
+                                removeFromSelectedMap(filter_category, congregazioni.get(finalI).getId());
                             } else {
                                 tv.setTag("selected");
                                 tv.setBackgroundResource(R.drawable.chip_selected);
                                 tv.setTextColor(ContextCompat.getColor(getContext(), R.color.filters_header));
-                                addToSelectedMap(filter_category, congregazioni.get(finalI).getNome());
+                                addToSelectedMap(filter_category, congregazioni.get(finalI).getId());
                             }
                         }
                     });
@@ -328,12 +332,12 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
         };
         map.put("a_token", sp_connection.getString("a_token", ""));
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(Connessione.sendGet(map, uri, getCongregazioni));
+        requestQueue.add(Connessione.sendGet(map, uri, getCongregazioni, null));
 
 
     }
 
-    private void addToSelectedMap(String key, String value) {
+    private void addToSelectedMap(String key, int value) {
         if(key.equals("congregazioni")){
             mContenutoFiltro.addCongregazione(value);
         }else{
@@ -341,7 +345,7 @@ public class CercaChieseFragment extends AAH_FabulousFragment implements GoogleA
         }
     }
 
-    private void removeFromSelectedMap(String key, String value) {
+    private void removeFromSelectedMap(String key, int value) {
         if(key.equals("congregazioni")){
             mContenutoFiltro.removeCongregazione(value);
         }else{

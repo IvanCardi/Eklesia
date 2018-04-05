@@ -11,7 +11,6 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
@@ -168,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
                     };
 
                     RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
-                    requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), controlloEmail));
+                    requestQueue.add(Connessione.sendGet(null, "api/mail/verification/" + emailEditText.getText().toString(), controlloEmail, null));
                     /*try {
                         jsonObject.put("nome", nome.getText());
                         jsonObject.put("cognome", cognome.getText());

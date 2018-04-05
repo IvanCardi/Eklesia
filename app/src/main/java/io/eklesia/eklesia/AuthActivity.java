@@ -1,14 +1,10 @@
 package io.eklesia.eklesia;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -101,7 +97,7 @@ public class AuthActivity extends AppCompatActivity {
             map.put("a_token", sp_connection.getString("a_token", ""));
 
             RequestQueue requestQueue = Volley.newRequestQueue(AuthActivity.this);
-            requestQueue.add(Connessione.sendGet(map, "api/utente/verification", RispostaConAccessToken));
+            requestQueue.add(Connessione.sendGet(map, "api/utente/verification", RispostaConAccessToken, null));
         }
 
 

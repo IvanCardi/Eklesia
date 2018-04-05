@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.eklesia.eklesia.RicercaActivity">
-
-    <LinearLayout
-        android:id="@+id/barra_ricerca_layout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/colorAccent"
-        android:elevation="2dp"
-        android:fitsSystemWindows="true"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:transitionName="barra_ricerca">
-
-        <TextView
-            android:id="@+id/barra_ricerca"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:hint="Fai una ricerca"/>
-
-    </LinearLayout>
+    tools:context="io.eklesia.eklesia.ricerca.RicercaActivity">
 
 </android.support.constraint.ConstraintLayout>

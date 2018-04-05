@@ -27,8 +27,8 @@ public class Connessione {
         super();
     }
 
-    public static JsonObjectRequest sendGet(final Map<?,?> parametri, String uri, final CallbackFunction cbf){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, base_url + uri, null, new Response.Listener<JSONObject>() {
+    public static JsonObjectRequest sendGet(final Map<?, ?> parametri, String uri, final CallbackFunction cbf, JSONObject jsonObject){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, base_url + uri, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
